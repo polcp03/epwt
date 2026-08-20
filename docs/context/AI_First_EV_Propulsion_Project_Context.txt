@@ -1,0 +1,884 @@
+AI-FIRST EV PROPULSION PROJECT
+Architecture & Working Context for Claude Code
+Version: 2026-08-20
+
+PURPOSE
+-------
+This document captures the current thinking behind an AI-first personal engineering project.
+
+The project is not only an EV propulsion development project. It is also a laboratory for learning how to build and operate an AI-first engineering organization using Claude Code, Skills, MCP, subagents, Agent Teams, hooks, structured knowledge, automated validation, and human-in-the-loop processes.
+
+The engineering project will cover, broadly:
+- Electric motor / PMSM development and modelling
+- Inverter / power electronics
+- FOC and motor control
+- Vehicle Control Unit (VCU)
+- CAN communications
+- Embedded C
+- Simulink modelling and simulation
+- MIL / SIL / potentially HIL validation
+- Data analysis
+- Requirements and system architecture
+- Engineering documentation
+- Weekly progress reporting to a mentor
+
+CORE VISION
+-----------
+The target is NOT:
+"Use Claude Code to write my code."
+
+The target IS:
+"Build an AI-first engineering operating system around a real propulsion project."
+
+The AI should become a first-class participant in the engineering workflow, while humans retain responsibility for engineering judgement, architecture, safety-critical decisions, and final validation.
+
+The intended organization should behave somewhat like a small engineering company:
+- Human = system owner / chief engineer
+- Claude Code = primary AI engineering environment / orchestrator
+- Skills = reusable engineering knowledge and workflows
+- Subagents = specialized workers when isolation or specialization is useful
+- Agent Teams = multi-agent collaboration when parallel independent reasoning is genuinely useful
+- MCP = interfaces to external tools and systems
+- Hooks = deterministic automation and quality gates
+- GitHub = source of truth for software and versioned technical artifacts
+- Knowledge/project platform = tasks, requirements, experiments, decisions, reports, roadmap, etc.
+- Simulation/tests/measurements = objective ground truth
+
+IMPORTANT ARCHITECTURAL PRINCIPLE
+---------------------------------
+Do not build an "agent company" consisting of many agents for the sake of having agents.
+
+Build a strong HARNESS.
+
+A harness is the surrounding system that gives an agent:
+- Context
+- Knowledge
+- Tools
+- Memory/state
+- Delegation mechanisms
+- Permissions
+- Validation
+- Feedback
+- Evaluation
+- Deterministic automation
+- Human approval points
+
+Conceptually:
+
+YOU
+ |
+ v
+AI ENGINEERING OPERATING SYSTEM
+ |
+ +-- Context
+ |   +-- CLAUDE.md
+ |   +-- project rules
+ |   +-- requirements
+ |   +-- engineering knowledge
+ |
+ +-- Capabilities
+ |   +-- Skills
+ |   +-- MCP
+ |   +-- tools
+ |
+ +-- Delegation
+ |   +-- subagents
+ |   +-- Agent Teams
+ |
+ +-- Control
+ |   +-- permissions
+ |   +-- hooks
+ |   +-- validation
+ |
+ +-- State
+     +-- GitHub
+     +-- tasks
+     +-- experiments
+     +-- decisions
+     +-- documentation
+
+AGENT
+-----
+The main Claude Code agent should be treated as an engineering collaborator/orchestrator, not merely a code generator.
+
+Its responsibilities may include:
+- Understanding project context
+- Planning work
+- Executing engineering tasks
+- Using tools
+- Delegating to specialists
+- Running tests and simulations
+- Interpreting objective results
+- Updating project state
+- Maintaining documentation
+- Preparing weekly reports
+- Identifying risks and unresolved questions
+
+However, it must not be trusted simply because it produces a confident answer.
+
+Core rule:
+"AI can propose and execute; tests determine whether it works."
+
+SKILLS
+------
+Skills are reusable knowledge and workflows.
+
+A Skill is not another agent.
+
+Example:
+FOC Skill:
+- Clarke/Park transformations
+- dq conventions
+- sign conventions
+- PMSM equations
+- current control
+- decoupling
+- saturation
+- anti-windup
+- MTPA
+- field weakening
+- sampling considerations
+- validation procedure
+
+Testing Skill:
+- Required validation sequence
+- Unit testing
+- SIL
+- numerical checks
+- regression checks
+- result interpretation
+- reporting requirements
+
+Experiment Skill:
+1. Define objective
+2. State hypothesis
+3. Record changes
+4. Run simulation/test
+5. Capture results
+6. Compare against baseline
+7. Record conclusions
+8. Record unresolved issues
+9. Create next actions
+
+Potential initial Skills:
+- requirements
+- systems-engineering
+- motor-model
+- PMSM
+- FOC
+- inverter
+- vehicle-control
+- CAN
+- embedded-C
+- Simulink
+- testing
+- validation
+- experiment-log
+- documentation
+- weekly-review
+
+Do NOT create all Skills immediately.
+First observe repeated workflows and only convert recurring knowledge/procedures into Skills.
+
+SUBAGENTS
+---------
+Subagents are specialized workers with isolated context.
+
+Potential specialists:
+- controls-engineer
+- motor-engineer
+- power-electronics-engineer
+- embedded-engineer
+- vehicle-controls-engineer
+- systems-engineer
+- verification-engineer
+- technical-reviewer
+
+Example:
+controls-engineer
+- PMSM FOC
+- current controllers
+- MTPA
+- field weakening
+- control stability
+
+embedded-engineer
+- C
+- MCU peripherals
+- ADC/PWM
+- interrupts
+- real-time constraints
+- memory
+- low-level drivers
+
+verification-engineer
+- independent reviewer
+- challenges assumptions
+- looks for numerical, physical and software errors
+- does not assume implementation is correct
+
+Important:
+A responsibility does not automatically require an agent.
+If a Skill plus the main agent is sufficient, do not create a separate agent.
+
+AGENT TEAMS
+-----------
+Agent Teams are a later-stage capability.
+
+Use them only when multiple independent lines of reasoning genuinely add value.
+
+Good use:
+"Evaluate two FOC architectures."
+
+Possible team:
+- controls specialist
+- embedded specialist
+- systems specialist
+- reviewer
+- lead synthesizer
+
+Bad use:
+"Create five agents to write a small C function."
+
+Agent Teams increase cost and complexity. They should not be the foundation of the system.
+
+MCP
+---
+MCP should provide controlled access to external systems.
+
+Potential MCP integrations:
+- GitHub
+- Notion
+- Tana
+- other project-management / knowledge systems
+- potentially simulation/data tools where appropriate
+
+MCP is a tool/interface layer, not the knowledge itself.
+
+Potential architecture:
+Claude Code
+  |
+  +-- GitHub MCP
+  +-- Knowledge/PM MCP
+  +-- other engineering tools
+
+GITHUB
+-------
+GitHub should be the source of truth for:
+- Source code
+- C code
+- scripts
+- configuration
+- CAN databases where appropriate
+- Simulink-related versioned artifacts where practical
+- tests
+- technical documentation that should be versioned
+- issue/PR history
+- releases/tags
+- engineering changes
+
+Never make Notion/Tana/Obsidian the authoritative location for source code.
+
+KNOWLEDGE / PROJECT MANAGEMENT
+------------------------------
+A separate knowledge/project system may be used for:
+- roadmap
+- tasks
+- requirements
+- experiments
+- engineering decisions
+- risks
+- mentor meetings
+- weekly reports
+- research
+- project status
+
+Candidates:
+1. Notion
+2. Tana
+3. Obsidian
+
+Current hypothesis:
+- Notion: strongest candidate for an AI-first project/operations workspace
+- Tana: interesting candidate for structured knowledge / knowledge graph workflows
+- Obsidian: strong candidate for local Markdown-first technical knowledge and Git integration
+
+Do not choose based only on popularity.
+Evaluate:
+- MCP quality
+- API capabilities
+- structured data
+- search/retrieval
+- AI access
+- versioning
+- portability
+- local/offline behavior
+- ease of automation
+- long-term lock-in
+- fit with GitHub
+- ease of weekly reporting
+
+Potential initial choice:
+GitHub + Notion
+
+But this must be validated before committing.
+
+INFORMATION ARCHITECTURE
+------------------------
+Important entities should be explicitly defined.
+
+Candidate entities:
+
+PROJECT
+- overall project identity
+- goals
+- scope
+- constraints
+
+REQUIREMENT
+- unique ID
+- description
+- rationale
+- source
+- priority
+- status
+- verification method
+
+TASK
+- unique ID
+- description
+- owner
+- status
+- priority
+- dependencies
+- related requirement
+- related experiment
+- related code/PR
+
+EXPERIMENT
+- unique ID
+- objective
+- hypothesis
+- setup
+- parameters
+- changes
+- results
+- baseline
+- conclusion
+- limitations
+- next actions
+
+ENGINEERING DECISION
+- unique ID
+- decision
+- alternatives considered
+- rationale
+- assumptions
+- consequences
+- evidence
+- date
+
+TEST
+- unique ID
+- purpose
+- input
+- expected result
+- actual result
+- pass/fail
+- artifact/result location
+
+RISK
+- description
+- probability
+- impact
+- mitigation
+- owner
+- status
+
+MEETING / MENTOR REVIEW
+- date
+- progress
+- questions
+- feedback
+- decisions
+- actions
+
+WEEKLY REPORT
+- completed work
+- key results
+- engineering decisions
+- problems
+- risks
+- unresolved questions
+- next week objectives
+
+TRACEABILITY
+------------
+A central goal is to maintain traceability:
+
+REQUIREMENT
+    |
+    v
+TASK
+    |
+    v
+IMPLEMENTATION / COMMIT
+    |
+    v
+TEST
+    |
+    v
+RESULT
+    |
+    v
+ENGINEERING DECISION
+    |
+    v
+DOCUMENTATION / WEEKLY REPORT
+
+This allows the AI to answer:
+- What have we done?
+- Why did we do it?
+- What changed?
+- What evidence supports it?
+- What remains open?
+- Why was this architecture selected?
+- Which requirements are still unverified?
+
+ENGINEERING WORKFLOW
+--------------------
+Preferred general workflow:
+
+Requirement
+    |
+    v
+Research
+    |
+    v
+System architecture
+    |
+    v
+Design decision
+    |
+    v
+Model
+    |
+    v
+Implementation
+    |
+    v
+Simulation
+    |
+    v
+Test
+    |
+    v
+Measurement
+    |
+    v
+Validation
+    |
+    v
+Documentation
+    |
+    v
+Review
+    |
+    v
+Next iteration
+
+This should become the backbone of the AI-first organization.
+
+VALIDATION AS GROUND TRUTH
+--------------------------
+LLMs can produce plausible but incorrect engineering output.
+
+Therefore:
+- simulation
+- unit tests
+- numerical checks
+- static analysis
+- SIL
+- MIL
+- HIL
+- physical measurements
+
+should provide objective evidence.
+
+The AI should not be allowed to conclude "correct" merely because its reasoning appears plausible.
+
+Example:
+
+Claude:
+"The controller should be correct."
+
+Simulation:
+FAIL
+
+=> feedback to Claude
+
+Claude:
+modifies controller
+
+Simulation:
+PASS
+
+=> evidence
+
+This closed-loop approach is especially valuable for control systems and physical engineering.
+
+HOOKS
+------
+Hooks are important because they can enforce deterministic workflows.
+
+Example:
+
+Claude modifies C
+    |
+    v
+PostToolUse hook
+    |
+    +-- compile
+    +-- unit tests
+    +-- static checks
+    +-- validation
+    |
+    v
+results returned to Claude
+
+Another example:
+
+TaskCompleted
+    |
+    v
+quality gate
+    |
+    +-- tests passed?
+    +-- documentation updated?
+    +-- requirement linked?
+    +-- evidence recorded?
+    |
+    v
+Allow "Done" only if criteria are satisfied
+
+Use deterministic hooks where possible instead of relying on the model to remember every rule.
+
+HUMAN-IN-THE-LOOP
+-----------------
+The system should explicitly define actions requiring human approval.
+
+Likely human-controlled:
+- safety-critical decisions
+- architecture changes with major consequences
+- physical hardware changes
+- high-voltage decisions
+- irreversible operations
+- release decisions
+- final engineering sign-off
+- major requirement changes
+
+The AI should be able to:
+- research
+- propose
+- implement
+- test
+- summarize
+- document
+
+But final engineering responsibility remains human.
+
+WEEKLY MENTOR LOOP
+------------------
+The weekly mentor presentation is a core part of the system.
+
+Every week:
+
+Project activity
+    |
+    +-- completed tasks
+    +-- commits
+    +-- experiments
+    +-- test results
+    +-- decisions
+    +-- problems
+    |
+    v
+AI weekly synthesis
+    |
+    +-- progress
+    +-- results
+    +-- unresolved questions
+    +-- risks
+    +-- next objectives
+    |
+    v
+PowerPoint / mentor meeting
+    |
+    v
+Mentor feedback
+    |
+    v
+New decisions + tasks
+
+The weekly presentation should not be created manually from scratch.
+
+The underlying project records should make it possible for Claude to generate a draft/report automatically.
+
+AI-FIRST PRINCIPLES
+-------------------
+1. AI is a first-class engineering worker.
+2. Git/version control remains fundamental.
+3. Structured context is more important than giant prompts.
+4. Skills encode reusable knowledge/workflows.
+5. Agents are introduced only when justified.
+6. MCP provides controlled tool access.
+7. Hooks enforce deterministic rules.
+8. Tests and simulation provide ground truth.
+9. Humans retain engineering responsibility.
+10. Everything important should be traceable.
+11. Documentation should be generated from actual project activity.
+12. The system should improve iteratively.
+
+WHAT THIS PROJECT IS ALSO TEACHING
+----------------------------------
+The project should deliberately teach:
+
+- Claude Code
+- context engineering
+- AI agent architecture
+- Skills
+- MCP
+- subagents
+- Agent Teams
+- hooks
+- evaluation
+- structured knowledge
+- project management
+- software architecture
+- Git/GitHub
+- C
+- Simulink
+- control systems
+- PMSM
+- inverter systems
+- CAN
+- VCU
+- validation
+- technical documentation
+- engineering decision-making
+
+The goal is not merely to finish an EV project.
+The goal is to learn how to operate a modern AI-native engineering workflow.
+
+IMPORTANT VIEW ON CODING
+------------------------
+Do NOT assume that AI eliminates the need to understand programming.
+
+Target skill profile:
+
+- strong engineering fundamentals
+- ability to read C
+- ability to understand software architecture
+- ability to review AI-generated code
+- ability to reason about algorithms
+- ability to design tests
+- ability to validate results
+- ability to debug
+- progressively less manual code typing
+
+A useful target is:
+"AI writes an increasing proportion of implementation; the engineer increasingly focuses on specification, architecture, review, verification, and system-level decisions."
+
+Avoid becoming dependent on AI without understanding the underlying system.
+
+AI-FIRST DOES NOT MEAN AI-ONLY
+------------------------------
+The project should remain engineering-first.
+
+Bad:
+"Claude says this is correct."
+
+Good:
+"Claude implemented it, tests passed, simulation matches the expected model, measurements support the result, and the engineer reviewed it."
+
+RESEARCH / CURRENT INDUSTRY VIEW
+---------------------------------
+The architecture is motivated by current trends and documentation:
+
+- Anthropic's Claude Code documentation now explicitly supports Skills, subagents, Agent Teams, MCP, hooks and plugins.
+- Anthropic's agent engineering guidance favors simple composable patterns before complex multi-agent architectures.
+- Anthropic's context-engineering work emphasizes that useful agents depend heavily on context, tools, state and just-in-time information retrieval.
+- DORA's research emphasizes that AI amplifies the underlying engineering system rather than magically fixing poor processes.
+- Recent agent research increasingly treats the harness around an agent as a major architectural component.
+- Evaluation and verification are becoming increasingly important as coding agents become more capable.
+
+Therefore, the project direction is technically credible.
+
+However, avoid claiming that this exact architecture is "the future" with certainty. Tools and best practices are changing rapidly.
+
+The durable skills are likely to be:
+- system architecture
+- context engineering
+- tool integration
+- evaluation
+- verification
+- structured knowledge
+- automation
+- engineering judgement
+
+PROPOSED IMPLEMENTATION PHASES
+------------------------------
+PHASE 0
+Define project/company vision and constraints.
+
+PHASE 1
+Define engineering domains and responsibilities.
+
+PHASE 2
+Define information architecture and entities.
+
+PHASE 3
+Evaluate Notion vs Tana vs Obsidian.
+
+PHASE 4
+Define GitHub repository architecture.
+
+PHASE 5
+Define Claude Code architecture.
+
+PHASE 6
+Create initial CLAUDE.md.
+
+PHASE 7
+Create only the first essential Skills.
+
+PHASE 8
+Add MCP integrations.
+
+PHASE 9
+Add deterministic Hooks.
+
+PHASE 10
+Introduce subagents where justified.
+
+PHASE 11
+Experiment with Agent Teams.
+
+PHASE 12
+Start the actual propulsion development workflow.
+
+PHASE 13
+Iteratively improve the harness based on real usage.
+
+DO NOT OVERENGINEER THE START
+------------------------------
+Do not start with:
+- 20 agents
+- 40 Skills
+- 15 MCPs
+- multiple project-management platforms
+- elaborate orchestration
+- complicated autonomous loops
+
+Start with a small but rigorous system.
+
+Then let actual friction reveal what needs automation.
+
+INITIAL TARGET ARCHITECTURE
+---------------------------
+YOU
+ |
+ v
+CLAUDE CODE / MAIN ORCHESTRATOR
+ |
+ +-- CLAUDE.md
+ |
+ +-- Skills
+ |
+ +-- MCP
+ |    +-- GitHub
+ |    +-- Knowledge / project management
+ |
+ +-- Subagents (only where justified)
+ |
+ +-- Hooks
+ |
+ v
+PROJECT
+ |
+ +-- GitHub
+ |    +-- source
+ |    +-- tests
+ |    +-- models
+ |    +-- documentation
+ |
+ +-- Knowledge / PM system
+ |    +-- requirements
+ |    +-- tasks
+ |    +-- experiments
+ |    +-- decisions
+ |    +-- risks
+ |    +-- mentor meetings
+ |    +-- weekly reports
+ |
+ +-- Simulation
+ |    +-- Simulink
+ |
+ +-- Validation
+      +-- SIL
+      +-- HIL
+      +-- physical tests
+
+QUESTIONS TO DISCUSS WITH THE AI AGENT
+--------------------------------------
+The agent receiving this document should NOT immediately start implementing everything.
+
+First, challenge and improve this architecture.
+
+Questions to answer:
+
+1. Is this architecture technically sound?
+2. Which assumptions are wrong or premature?
+3. What should be the source of truth for each type of information?
+4. Should the project use Notion, Tana, Obsidian, or another tool?
+5. What should live in GitHub vs the knowledge-management system?
+6. What entities should exist in the information model?
+7. What should be a Skill?
+8. What should be a subagent?
+9. What should NOT be an agent?
+10. When should Agent Teams be used?
+11. Which MCP integrations are actually useful?
+12. Which workflows should use deterministic Hooks?
+13. What should require human approval?
+14. How should tests and simulations provide feedback to Claude?
+15. How should engineering decisions be recorded?
+16. How should weekly mentor reports be generated?
+17. How should requirements be traced to implementation and validation?
+18. How can the system remain portable if Claude Code or a specific SaaS platform changes?
+19. How can the architecture avoid excessive token consumption and unnecessary agent complexity?
+20. What is the smallest viable AI-first harness that can be built before starting engineering?
+
+IMPORTANT INSTRUCTION TO THE AGENT
+----------------------------------
+Treat this document as a starting architecture proposal, not as a specification that must be obeyed.
+
+Critically review it.
+
+Identify:
+- contradictions
+- missing components
+- unnecessary complexity
+- better alternatives
+- risks
+- architectural trade-offs
+- assumptions that should be tested
+
+Do not simply agree.
+
+The objective is to arrive at a robust AI-first engineering architecture before implementation begins.
+
+FINAL PRINCIPLE
+---------------
+Build the engineering system first.
+Then build the AI around the engineering system.
+Do not build a collection of AI features and hope they become an engineering system.
