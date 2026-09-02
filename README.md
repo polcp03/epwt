@@ -17,7 +17,7 @@ Work runs in two-week cycles, each closed by a review with engineering mentors.
 
 | Path | Contents |
 |---|---|
-| `01_cycles/` | Two-week work cycles: goal, deliverable, outcome |
+| `01_plan/` | Two-week work cycles: goal, deliverable, outcome |
 | `02_knowledge/` | Engineering notes |
 | `04_model/` | Simulink model — digital twin |
 | `05_firmware/` | Embedded code (ESP32 / Arduino) |
@@ -25,7 +25,7 @@ Work runs in two-week cycles, each closed by a review with engineering mentors.
 | `06_data/` | Test logs |
 | `07_experiments/` | Hypothesis, measurement, conclusion |
 | `08_decisions/` | Engineering decisions and discarded alternatives |
-| `00_vision/` | Long-term direction and deferred scope |
+| `01_plan/` | Long-term direction and deferred scope |
 
 ## Toolchain
 
