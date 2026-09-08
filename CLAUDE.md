@@ -19,7 +19,7 @@ Todo lo demás es subproducto.
 
 ## Idioma
 
-- Conversación y notas internas (`cycles/`, `knowledge/`, `vision/`): español.
+- Conversación y notas internas (`01_plan/`, `02_knowledge/`, `07_experiments/`): español.
 - Público y técnico — `README.md`, código, comentarios, commits, presentaciones a
   mentores, LinkedIn: **inglés**.
 
@@ -29,15 +29,15 @@ Numeradas por orden de flujo de trabajo, no alfabético.
 
 | Carpeta | Qué contiene |
 |---|---|
-| `01_plan/` | **El esqueleto.** Ciclo activo, roadmap, visión, backlog. Empieza siempre por el ciclo activo. |
+| `01_plan/` | **El esqueleto.** Ciclo activo, roadmap, visión, backlog, y las presentaciones con sus imágenes. Empieza siempre por el ciclo activo. |
 | `02_knowledge/` | Lo que aprendo, por temas. Markdown plano (Obsidian). |
 | `03_hardware/` | El quad: baseline y parámetros medidos. **Fuente de verdad** del hardware. |
 | `04_model/` | Simulink: gemelo digital. Tiene su propio `CLAUDE.md`. |
 | `05_firmware/` | Código embebido (ESP32 / Arduino). Tiene su propio `CLAUDE.md`. |
-| `06_data/` | Logs y CSV de ensayos reales. |
+| `06_data/` | Ensayos reales, una carpeta por campaña `AAAA-MM-DD_<ensayo>`. Los crudos van en `raw/`, fuera de Git. |
 | `07_experiments/` | Hipótesis → medida → conclusión. |
 | `08_decisions/` | Decisiones con impacto: alternativas y razonamiento. |
-| `_tools/`, `_archive/` | Software de terceros y documentos históricos. **Fuera de Git.** |
+| `_tools/`, `_archive/` | Software de terceros (VESC Tool, firmware VESC, MCP server) y material retirado. **Fuera de Git.** |
 
 `START-HERE.md` es el panel de entrada: dice qué toca hoy.
 
@@ -65,11 +65,23 @@ Las dos vías son válidas; la primera exige que yo lea, la segunda es automáti
 ## Reglas de trabajo
 
 - **Solo existe el ciclo activo.** Si algo no cabe en el ciclo actual, va a
-  `vision/backlog.md`, no a mi cabeza.
+  `01_plan/backlog.md`, no a mi cabeza.
 - Trazabilidad mínima: las decisiones y los experimentos se escriben. Nada de IDs
   formales, campos de estado ni matrices de trazabilidad.
 - Rama + Pull Request para cambios que no sean triviales, aunque trabaje solo.
   Aprender Git/GitHub de verdad es un objetivo explícito del proyecto.
+
+## Entorno (verificado, no asumir otra cosa)
+
+| Qué | Cómo se invoca |
+|---|---|
+| Python + análisis | `./.venv/Scripts/python.exe` — numpy, pandas, matplotlib, scipy, control |
+| MATLAB / Simulink | MCP `matlab` (**requiere MATLAB abierto**) o `matlab -batch "..."`, ~25 s |
+| Arduino / ESP32 | `$LOCALAPPDATA/Programs/Arduino IDE/resources/app/lib/backend/resources/arduino-cli.exe`, core `esp32:esp32` |
+| Git / GitHub | `git` + `gh` (PRs desde terminal) |
+
+**No hay Node ni LibreOffice.** No usar `pptxgenjs` ni contar con renderizar PPTX.
+Detalle completo y toolboxes disponibles en `08_decisions/DEC-002-entorno-tecnico.md`.
 
 ## Seguridad (no negociable)
 
@@ -80,4 +92,4 @@ temperatura del pack al terminar, (3) nunca cargar sin supervisión.
 
 ## Estado
 
-Ciclo activo: ver `cycles/`.
+Ciclo activo: ver `01_plan/`.

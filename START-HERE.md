@@ -11,42 +11,40 @@
 
 ## 🎯 Ahora mismo
 
-> [!todo] Ciclo C01 — Caracterizar la planta
-> **Abre [[C01]], busca el primer día sin marcar, haz eso. Nada más.**
+> [!todo] C01 — Medir el vehículo · 28 sep → 11 oct
+> **Abre [[C01]]. 14 bloques × 2 h. Objetivo: cerrar el lado vehículo de
+> `vehicle_params.m`.**
 >
 > | | |
 > |---|---|
-> | **Objetivo** | Medir los parámetros reales del motor |
-> | **Entregable** | Presentación + primeras medidas + EXP-001 |
-> | **Presupuesto** | 2 h/día · 28 h |
-> | **Review** | fecha por confirmar |
+> | **Entregable** | `r_roll`, masas, `Crr`, `CdA`, `eta_drive`, `R_int` medidos + coast-down escrito |
+> | **Review** | Lunes 12 de octubre |
+> | **Bloqueante** | D2: la config del VESC corrompe el canal de velocidad. Antes que nada |
+> | **Antes** | Vacaciones 10–27 sep. Sin trabajo planificado |
 
-### Progreso
+> [!success] C00 cerrado — 8 de septiembre
+> Reunión hecha y bien. Lo que engachó a los mentores **fue el método, no las
+> medidas**. La segunda vez el método ya no impresiona: el 12 de octubre toca
+> enseñarlo produciendo un número. Ver el cierre en [[C00]].
+>
+> Sigue pendiente: confirmar las seis fechas de review en el calendario.
 
-| Día | Tarea | Contexto | |
-|---|---|---|---|
-| D1 | Git: commit, rama, PR | dirección | ⬜ |
-| D2 | Entender mi hardware | dirección | ⬜ |
-| D3 | Teoría PMSM | modelo | ⬜ |
-| D4 | Medir R y pares de polos | banco | ⬜ |
-| D5 | Medir back-EMF | banco | ⬜ |
-| D6 | Calcular Ke en Python | datos | ⬜ |
-| D7 | Parámetros de vehículo | banco | ⬜ |
-| D8 | Detección FOC del VESC | banco | ⬜ |
-| D9 | EXP-001: comparar | datos | ⬜ |
-| D10 | Nota de conocimiento | modelo | ⬜ |
-| D11-12 | Presentación | dirección | ⬜ |
-| D13 | Ensayo con examinador | dirección | ⬜ |
-| D14 | **Review con mentores** | — | ⬜ |
-
----
+> [!info] El año, de un vistazo
+> | | |
+> |---|---|
+> | **C00** · 2–9 sep | Kickoff |
+> | *10–27 sep* | *Vacaciones* |
+> | **C01** · 28 sep–11 oct | Medir el vehículo → review 12 oct |
+> | **C02–C06** | Hasta el 21 dic |
+>
+> **Meta de 2026: modelo validado contra el vehículo real.**
 
 ## 🗺️ El camino
 
 > [!example]- C01 → C06 (desplegar)
 > | Ciclo | Objetivo |
 > |---|---|
-> | **C01** | Caracterizar la planta ← *estás aquí* |
+> | **C01** | Medir el vehículo ← *estás aquí* |
 > | C02 | Modelo longitudinal validado con coast-down |
 > | C03 | PMSM en dq. Entender Clarke y Park |
 > | C04 | Inversor + lazo de corriente |
@@ -73,9 +71,26 @@
 | `03_hardware/` | El quad: baseline y medidas |
 | `04_model/` | Simulink |
 | `05_firmware/` | ESP32 / Arduino |
-| `06_data/` | Logs de ensayos |
+| `06_data/` | Ensayos, por campaña con fecha |
 | `07_experiments/` | Hipótesis → medida → conclusión |
 | `08_decisions/` | Decisiones y alternativas |
+
+---
+
+## 🧭 Si eres una sesión nueva, lee esto primero
+
+> [!abstract]- Cómo orientarse en 2 minutos
+> 1. **`CLAUDE.md`** — cómo trabajar con Pol, mapa del repo, entorno, seguridad.
+> 2. **Este panel** — qué toca hoy y qué está bloqueado.
+> 3. **El ciclo activo** en `01_plan/` — el plan concreto con casillas.
+> 4. Si el trabajo es de un área con `CLAUDE.md` propio (`04_model/`, `05_firmware/`),
+>    **léelo antes de responder nada sustantivo**. Pol trabaja por voz desde la raíz.
+>
+> **No vuelvas a abrir la estrategia.** [[vision]] y [[backlog]] están cerrados;
+> se leen una vez, no se rediscuten. Si aparece una idea nueva, va a [[backlog]].
+>
+> Lo que NO hay en esta máquina: Node, LibreOffice. Lo que sí: Python en `.venv/`,
+> MATLAB por MCP (con MATLAB abierto), `arduino-cli`, `git` y `gh`.
 
 ---
 

@@ -32,6 +32,12 @@ Nada de un `.ino` gigante. Módulos con una responsabilidad cada uno.
 
 ```
 arduino/    sketches y experimentos rápidos
-src/        código estructurado por módulos (cuando el proyecto lo pida)
-docs/       protocolos, pinouts, notas de integración
 ```
+
+`src/` (módulos) y `docs/` (protocolos, pinouts) se crean **cuando empiece la VCU**,
+no antes. Una carpeta vacía es ruido: promete algo que no existe.
+
+Aquí **solo va código mío**. Lo del VESC está repartido a propósito:
+la configuración de mi equipo en `03_hardware/vesc/`, sus logs en `06_data/`,
+y el firmware y la herramienta de terceros en `_tools/` (fuera de Git).
+Ver `03_hardware/vesc/README.md`.
