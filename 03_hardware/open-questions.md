@@ -23,7 +23,15 @@ celdas exteriores se calientan más de lo que ve el termistor interno del BMS.
 **Experimento pendiente:** caída de tensión bajo carga para estimar la capacidad real
 de corriente del pack.
 
-## Riesgo 2 — El corte de USB del VESC bajo carga no está diagnosticado
+## Riesgo 2 — Bucle de tierra PC / VESC  — **MATERIALIZADO 2026-09-07**
+
+> [!danger] Ya no es un riesgo teórico
+> El 2026-09-07 este mecanismo destruyó un ESP32-WROOM-32 al montar el primer
+> sniffer de CAN. El aviso de abajo estaba escrito **antes** del incidente y no se
+> leyó antes de montar. Cuantificación pendiente en
+> [`EXP-001`](../07_experiments/EXP-001-bucle-tierra-vesc-pc.md).
+
+### El síntoma original: corte de USB del VESC bajo carga
 
 Catalogado como "posible EMI" pero nunca comprobado. Es un **fallo conocido y
 documentado en la comunidad VESC**, sin causa única. Tres mecanismos candidatos,
@@ -42,6 +50,17 @@ son más probables que un defecto de soldadura.
 **Experimento barato pendiente (~30 min):** osciloscopio en D+/D- y en el raíl de 5 V
 durante una rampa de carga. Probar hub USB aislado o ferrita como bisección.
 
+### Lo que añade el incidente del 07-09
+
+El mecanismo 3 (bucle de tierra) es también el candidato principal para la muerte del
+ESP32. Montaje: módulo CAN alimentado desde el pin 3V3 del ESP32, lado CAN conectado
+a un VESC encendido con la batería 13S. Eso pone el raíl de 3,3 V del micro en
+contacto eléctrico con un sistema de 54 V que conmuta, sin nada en medio.
+
+**Consecuencia de diseño:** cualquier conexión entre el VESC y un equipo referenciado
+a red exige aislamiento galvánico. ISO1050 para el CAN, ADUM3160 para el USB.
+Ver `shopping-list.md`.
+
 ## Riesgo 3 — El motor no está identificado con certeza
 
 La referencia MY1020/BM1109 no está confirmada. Caracterizarlo (R de fase, back-EMF,
@@ -55,6 +74,52 @@ pares de polos) es barato y no requiere software. → Es el objetivo de **C01**.
   (rangos típicos ~15–35 mΩ y 4–20 µH para este tipo de motor). Sirve como contraste
   independiente de la medida manual.
 - `syssi/esphome-jk-bms` — protocolo JK-BMS por UART/BLE ya deconstruido y mantenido.
+
+## Riesgo 4 — Sin sensor de temperatura en el motor
+
+`m_motor_temp_sens_type = 8` = `TEMP_SENSOR_DISABLED`. Es correcto: **no hay sensor
+instalado**. Pero la consecuencia sí es un riesgo abierto: los límites configurados
+de 85/100 °C de motor son código muerto, y hay 120 A de corriente de motor disponibles
+sobre un bobinado que ya se sabe que calienta.
+
+Hoy la protección térmica de la máquina es **el procedimiento, no el sistema**: límite
+de corriente en el VESC y comprobación manual al terminar el ensayo.
+
+- Sin sensor no se puede validar el modelo térmico ni la compensación `R(T)`
+  (`foc_temp_comp = 0`, coherente).
+- La `R` estimada por el VESC corresponde a la temperatura de la tirada de detección.
+  Sin medida de temperatura no se sabe a qué temperatura.
+
+**Barato:** el VESC ya soporta NTC 10 k / KTY / PT1000 en el puerto de temperatura.
+Un NTC pegado a la carcasa no da temperatura de bobinado, pero da tendencia y
+reactiva el fold-back.
+
+## Auditoría de configuración del VESC — 2026-09-06
+
+Revisión completa de `MOTOR_1.9.xml` + `MOTOR_1.9_app.xml` contra el firmware.
+
+**Consistencia interna: correcta.** `kp = L·bw` y `ki = R·bw` dan el mismo
+`bw = 2000 rad/s` con los dos números, y `observer_gain = 1e3/λ²` = 3,898e6 ≈ 3,9e6
+configurado. La detección se aplicó bien.
+
+**Desviaciones encontradas:**
+
+| Campo | Valor | Debería ser | Impacto |
+|---|---|---|---|
+| `si_gear_ratio` | 6,5 | 8,36 (92/11) | Velocidad y distancia reportadas **28 % altas** |
+| `si_motor_poles` | 6 | sin verificar | Solo display; no afecta al control |
+| `si_battery_ah` | 13 | sin verificar | Solo estimación de autonomía |
+| `foc_encoder_ratio` | 7 | — | Irrelevante, no hay encoder |
+
+`si_gear_ratio` no afecta al control, pero **sí corrompe el canal de velocidad de
+todos los logs**. Como la regla nº3 de `04_model/CLAUDE.md` dice que el modelo no
+vale nada hasta correlacionar contra `06_data/`, es un bloqueante barato: un campo.
+
+**Cadena de mando confirmada** (para modelar la entrada del conductor):
+`app_to_use = 2` (ADC), `ctrl_type = 3` (corriente con marcha atrás por botón),
+mapa lineal 0,81 → 3,30 V, y **rampa de 0,3 s de subida / 0,1 s de bajada**.
+Esa rampa (400 A/s) domina la dinámica percibida frente al lazo de corriente
+(~1,5 ms). Detalle en [`04_model/params/throttle_params.m`](../04_model/params/throttle_params.m).
 
 ## Gotcha de hardware confirmado
 
