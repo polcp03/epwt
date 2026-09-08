@@ -4,19 +4,95 @@ Regla: **solo el ciclo activo está planificado en detalle.** Los siguientes exi
 como dirección, no como plan. Se concretan al abrirlos. Si esta lista empieza a crecer
 hacia abajo con detalle, es la señal de que estoy buscando el plan perfecto otra vez.
 
-Presupuesto: ~28 h por ciclo (2 h/día).
+Presupuesto: ~28 h por ciclo (2 h/día, fines de semana incluidos).
 
-| Ciclo   | Objetivo                                                                      | Entregable a mentores                                     |
-| ------- | ----------------------------------------------------------------------------- | --------------------------------------------------------- |
-| **C01** | Caracterizar la planta: R de fase, Ke, pares de polos, parámetros de vehículo | Visión + plan + primeras medidas + EXP-001                |
-| **C02** | Modelo longitudinal del vehículo en Simulink, parametrizado con C01           | Modelo que reproduce un coast-down real                   |
-| **C03** | Modelo eléctrico de la PMSM en dq. Entender Clarke y Park de verdad           | Explicar FOC con mis palabras + simulación                |
-| **C04** | Inversor + lazo de corriente en simulación. Control de par                    | Respuesta de par simulada, con ancho de banda justificado |
-| **C05** | Adquisición de datos real. Instrumentar el vehículo                           | Primeros logs propios en `06_data/`                       |
-| **C06** | Correlación modelo ↔ vehículo. Dónde falla el modelo y por qué                | Gráfica de correlación y análisis del error               |
+## Calendario real
+
+> [!warning] Vacaciones 10 → 27 de septiembre
+> Sin ordenador. **No se planifica trabajo dentro de ese hueco.** Un proyecto que
+> exige trabajar en vacaciones el primer mes no llega al mes doce.
+
+| Ciclo | Fechas | Objetivo | Review |
+|---|---|---|---|
+| **C00** | 2 → 9 sep | Kickoff con mentores + primeras medidas | mar 8 o mié 9 sep |
+| — | 10 → 27 sep | *Vacaciones* | — |
+| **C01** | 28 sep → 11 oct | Caracterizar la planta: R, Ke, polos, vehículo | lun 12 oct |
+| **C02** | 12 → 25 oct | Modelo longitudinal validado con coast-down | lun 26 oct |
+| **C03** | 26 oct → 8 nov | PMSM en dq. Entender Clarke y Park | lun 9 nov |
+| **C04** | 9 → 22 nov | Inversor + lazo de corriente. Control de par | lun 23 nov |
+| **C05** | 23 nov → 6 dic | Instrumentar el vehículo (data logger) | lun 7 dic |
+| **C06** | 7 → 20 dic | Correlación modelo ↔ vehículo | lun 21 dic |
+
+**Fin de 2026: modelo validado contra el vehículo real.** Ese es el objetivo del año.
 
 Después de C06 (no antes): control de tracción, launch control, y **entonces** MPC —
 que requiere exactamente lo que C06 produce, un modelo validado.
+
+### Horizonte largo — una línea por trimestre, y nada más
+
+Deliberadamente vago. Concretarlo ahora sería buscar el plan perfecto.
+
+| Trimestre | Dirección |
+|---|---|
+| **T4 2026** (C01–C06) | Del hardware medido a un modelo validado |
+| **T1 2027** | Control implementado: del modelo al ESP32. Aquí entra el firmware en serio |
+| **T2 2027** | Funciones de vehículo: tracción, launch. Y MPC si el modelo aguanta |
+| **T3 2027+** | El quad es plataforma: percepción, autonomía, lo que aparezca |
+
+## Cómo funciona un ciclo
+
+El ciclo es el motor del proyecto. Sin ritual, es solo el nombre de una carpeta.
+
+> [!todo] Apertura — 1 sesión, el día después de la review
+> 1. Leer el cierre del ciclo anterior. Qué salió mal se arrastra, no se olvida.
+> 2. Elegir **un** objetivo. Uno. Si necesita un "y", son dos ciclos.
+> 3. Definir el entregable: qué se enseña el día de la review.
+> 4. Escribir el plan diario. 14 bloques de 2 h.
+> 5. Todo lo que no quepa → `backlog.md`.
+
+> [!tip] Durante — cada sesión
+> Cerrar escribiendo **una línea** en la bitácora: qué hice, qué aprendí, qué queda.
+> Es la costumbre más barata y de más valor del sistema. Sin ella, cada sesión
+> empieza a ciegas.
+
+> [!success] Cierre — última sesión antes de la review
+> 1. Rellenar Resultado / Qué aprendí / Qué salió mal.
+> 2. Ensayar la explicación en voz alta, con Claude de examinador.
+> 3. Si no lo sé explicar sin apuntes, **no está terminado**.
+
+### La review, en 45 minutos
+
+Sus mentores son ingenieros de motores térmicos: no pueden validar el FOC, pero sí
+el razonamiento de ingeniería. El formato aprovecha lo que sí saben:
+
+| Tiempo | Qué |
+|---|---|
+| 5 min | Qué dije que haría |
+| 15 min | Qué he hecho, con datos |
+| 10 min | **Lo que no entiendo** — la parte más valiosa |
+| 10 min | Crítica: ¿el razonamiento se sostiene? |
+| 5 min | Objetivo del siguiente ciclo |
+
+Los 10 minutos de "lo que no entiendo" son el núcleo. Enseñar solo lo que funciona
+convierte la review en un teatro y desperdicia a dos doctores.
+
+## Cómo mido si esto funciona
+
+El objetivo es "ser mejor ingeniero", que no se mide. Estos cuatro indicadores sí,
+y se revisan **cada 3 ciclos**, no cada semana:
+
+1. **¿Puedo explicar algo hoy que hace 6 semanas no?** Sin apuntes, a alguien que no
+   sabe del tema. Es el único indicador que importa de verdad.
+2. **¿El modelo predice mejor?** A partir de C06, el error de correlación es un número
+   que baja o no baja. No admite autoengaño.
+3. **¿Cuántos ciclos he cerrado en fecha?** Mide el sistema, no el conocimiento.
+   Si van dos seguidos fallando, el problema es el plan, no yo.
+4. **¿Cuántas decisiones tengo escritas con su porqué?** Mide si estoy haciendo
+   ingeniería o solo tocando cosas.
+
+> [!warning] Lo que NO se mide
+> Horas invertidas, archivos escritos, líneas de código, commits. Todo eso se puede
+> subir sin aprender nada. Optimizar un indicador falso es peor que no medir.
 
 ## Por qué este orden
 

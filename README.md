@@ -17,15 +17,14 @@ Work runs in two-week cycles, each closed by a review with engineering mentors.
 
 | Path | Contents |
 |---|---|
-| `01_plan/` | Two-week work cycles: goal, deliverable, outcome |
+| `01_plan/` | Two-week work cycles, roadmap, long-term direction, deferred scope, review decks and their images |
 | `02_knowledge/` | Engineering notes |
-| `04_model/` | Simulink model — digital twin |
+| `03_hardware/` | Vehicle specs, measured parameters, inverter configuration |
+| `04_model/` | Simulink model — digital twin, parameters, analysis scripts, results |
 | `05_firmware/` | Embedded code (ESP32 / Arduino) |
-| `03_hardware/` | Vehicle specs, datasheets, measured parameters |
-| `06_data/` | Test logs |
+| `06_data/` | Test campaigns, one folder per run: `YYYY-MM-DD_<test>` |
 | `07_experiments/` | Hypothesis, measurement, conclusion |
 | `08_decisions/` | Engineering decisions and discarded alternatives |
-| `01_plan/` | Long-term direction and deferred scope |
 
 ## Toolchain
 

@@ -3,6 +3,12 @@
 _tools/
 _archive/
 
+# El VESC vive todo en 03_hardware/vesc/ para no tener que buscar en dos sitios,
+# pero solo MI configuracion se versiona. El firmware de terceros (219 MB) y el
+# instalador (166 MB) se quedan en local. Ver 03_hardware/vesc/README.md.
+03_hardware/vesc/_firmware/
+03_hardware/vesc/_tool/
+
 # MATLAB / Simulink
 *.asv
 *.autosave
@@ -28,14 +34,27 @@ venv/
 
 # Datos pesados: los CSV de ensayo sí van al repo mientras sean pequeños.
 # Si algún log supera ~10 MB, se queda fuera y se documenta dónde está.
+# Los crudos de instrumento (BMP del osciloscopio, exportaciones TXT) NO:
+# viven en 06_data/<campana>/raw/, en local, indexados en 06_data/README.md.
+06_data/**/raw/
 
 # Obsidian: la configuracion SI se versiona, el layout de ventanas NO
 # (si no, salen conflictos de merge constantes)
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 
-# Datos de prueba generados
-06_data/_test/
+# Salidas generadas del analisis
+04_model/results/*.json
+
+# Imagenes generadas de las presentaciones: derivadas de assets/photos/,
+# las rehace _figures.py. Y los renders de verificacion, que hace _render.ps1.
+01_plan/presentations/assets/crops/
+01_plan/presentations/assets/figures/
+_renders/
+.render/
+
+# Archivos de bloqueo de Office (~$Deck.pptx)
+~$*
 
 # SO
 Thumbs.db
