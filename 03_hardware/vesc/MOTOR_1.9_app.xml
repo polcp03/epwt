@@ -6,13 +6,13 @@
     <timeout_brake_current>0</timeout_brake_current>
     <can_status_rate_1>50</can_status_rate_1>
     <can_status_rate_2>5</can_status_rate_2>
-    <can_status_msgs_r1>0</can_status_msgs_r1>
+    <can_status_msgs_r1>15</can_status_msgs_r1>
     <can_status_msgs_r2>0</can_status_msgs_r2>
     <can_baud_rate>2</can_baud_rate>
     <pairing_done>0</pairing_done>
     <permanent_uart_enabled>1</permanent_uart_enabled>
     <shutdown_mode>7</shutdown_mode>
-    <can_mode>3</can_mode>
+    <can_mode>0</can_mode>
     <uavcan_esc_index>0</uavcan_esc_index>
     <uavcan_raw_mode>0</uavcan_raw_mode>
     <uavcan_raw_rpm_max>50000</uavcan_raw_rpm_max>
@@ -46,8 +46,8 @@
     <app_adc_conf.voltage_min>0</app_adc_conf.voltage_min>
     <app_adc_conf.voltage_max>3.6</app_adc_conf.voltage_max>
     <app_adc_conf.voltage_center>2.05</app_adc_conf.voltage_center>
-    <app_adc_conf.voltage2_start>0</app_adc_conf.voltage2_start>
-    <app_adc_conf.voltage2_end>0</app_adc_conf.voltage2_end>
+    <app_adc_conf.voltage2_start>0.35</app_adc_conf.voltage2_start>
+    <app_adc_conf.voltage2_end>0.45</app_adc_conf.voltage2_end>
     <app_adc_conf.use_filter>1</app_adc_conf.use_filter>
     <app_adc_conf.safe_start>1</app_adc_conf.safe_start>
     <app_adc_conf.buttons>0</app_adc_conf.buttons>
