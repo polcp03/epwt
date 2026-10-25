@@ -11,45 +11,36 @@
 
 ## 🎯 Ahora mismo
 
-> [!todo] C01 — Medir el vehículo · 28 sep → 11 oct
-> **Abre [[C01]]. 14 bloques × 2 h. Objetivo: cerrar el lado vehículo de
-> `vehicle_params.m`.**
+> [!todo] C02 — Motor + inversor, solo modelo · review **vie 30 oct**
+> **Abre el plan y haz solo lo de hoy:** [C02 · Plan de estudio](https://claude.ai/artifact/BQURLvXASA1aoiGCevCGTa)
 >
 > | | |
 > |---|---|
-> | **Entregable** | `r_roll`, masas, `Crr`, `CdA`, `eta_drive`, `R_int` medidos + coast-down escrito |
-> | **Review** | Lunes 12 de octubre |
-> | **Bloqueante** | D2: la config del VESC corrompe el canal de velocidad. Antes que nada |
-> | **Antes** | Vacaciones 10–27 sep. Sin trabajo planificado |
+> | **Ciclo** | [[C02]] — lecciones, exámenes y entregable |
+> | **Ritmo** | 45–60 min mar–jue · sábado un ejercicio · predice → núcleo → laboratorio → criterio → cierre |
+> | **Fuera de alcance** | el vehículo y el VESC no se tocan; validación cuando haya data logger |
 
-> [!success] C00 cerrado — 8 de septiembre
-> Reunión hecha y bien. Lo que engachó a los mentores **fue el método, no las
-> medidas**. La segunda vez el método ya no impresiona: el 12 de octubre toca
-> enseñarlo produciendo un número. Ver el cierre en [[C00]].
->
-> Sigue pendiente: confirmar las seis fechas de review en el calendario.
+> [!success] C01 cerrado — review hecha
+> Modelo longitudinal L1 presentado y entendido por los mentores. Ver [[C01]].
 
 > [!info] El año, de un vistazo
 > | | |
 > |---|---|
 > | **C00** · 2–9 sep | Kickoff |
-> | *10–27 sep* | *Vacaciones* |
-> | **C01** · 28 sep–11 oct | Medir el vehículo → review 12 oct |
-> | **C02–C06** | Hasta el 21 dic |
+> | **C01** · 28 sep–9 oct | Modelo longitudinal |
+> | **C02** · 21–30 oct | Motor + inversor: modelar y explicar ← *estás aquí* |
+> | **C03–C06** | Reviews 13 nov · 27 nov · 11 dic · 25 dic (se moverá) |
 >
-> **Meta de 2026: modelo validado contra el vehículo real.**
+> **Secuencia:** modelo de motor + inversor → data logger → validación con datos reales.
 
 ## 🗺️ El camino
 
 > [!example]- C01 → C06 (desplegar)
 > | Ciclo | Objetivo |
 > |---|---|
-> | **C01** | Medir el vehículo ← *estás aquí* |
-> | C02 | Modelo longitudinal validado con coast-down |
-> | C03 | PMSM en dq. Entender Clarke y Park |
-> | C04 | Inversor + lazo de corriente |
-> | C05 | Instrumentar el vehículo (data logger) |
-> | C06 | Correlación modelo ↔ vehículo |
+> | C01 | Modelo longitudinal ✓ |
+> | **C02** | Motor + inversor: Clarke, Park, modelo dq ← *estás aquí* |
+> | C03–C06 | En discusión: lazo de corriente → data logger → validación |
 >
 > Después: control de tracción, launch control y **MPC**.
 > Detalle en [[roadmap]].
@@ -59,7 +50,7 @@
 ## 📂 Dónde está cada cosa
 
 > [!info]- Navegación
-> **Planificar** → [[C01]] · [[roadmap]] · [[backlog]] · [[vision]]
+> **Planificar** → [[C02]] · [[roadmap]] · [[backlog]] · [[vision]]
 > **Aprender** → [[git-workflow]] · [[claude-code-sessions]] · [[obsidian-setup]]
 > **El quad** → [[baseline]] · [[open-questions]]
 > **Decisiones** → [[DEC-001-herramienta-de-organizacion]] · [[DEC-002-entorno-tecnico]]

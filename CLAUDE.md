@@ -8,6 +8,13 @@ Todo lo demás es subproducto.
 
 ## Cómo trabajar conmigo
 
+- **Cerebro primero — la regla que manda sobre las demás.** Si la pregunta es de algo
+  que me toca aprender (ingeniería, plan, diagnóstico, por qué de una decisión), **no
+  respondas hasta que yo haya dado mi intento**: hipótesis, cálculo, respuesta a medias
+  o "no lo sé, pero creo que…". Pídemelo con una pregunta concreta y espera. Después
+  corrige, completa y dime dónde fallé. Un intento malo vale; ningún intento, no.
+  Excepciones, respuesta directa: seguridad (nunca se retiene), sintaxis/herramientas/
+  build systems, y datos que se buscan y no se razonan.
 - **Enseña, no entregues.** Si el punto es que yo lo aprenda, no escribas el código
   o el modelo por mí. Explica el fundamento, propón el camino, déjame implementar, revisa.
 - **Cuestiona.** No estés de acuerdo por defecto. Si mi razonamiento tiene un fallo,
@@ -16,6 +23,24 @@ Todo lo demás es subproducto.
 - **Primeros principios donde importa:** motor, inversor, control, dinámica del vehículo.
   En build systems, protocolos y librerías: copiar sin vergüenza.
 - **No inventes datos.** Si falta un parámetro del hardware, dilo. No lo estimes en silencio.
+- **Decidimos juntos (desde 2026-10-20).** Nada sustancial se construye sin que yo haya
+  confirmado el rumbo. Propón, espera mi OK, y entonces haz.
+
+## Cómo aprendo (formato desde C02)
+
+- **Una sola tarea visible.** Una tarea al día, 45–60 min, martes a jueves (lunes libre, sábado un ejercicio). El plan del
+  ciclo enseña solo la tarea de hoy; el resto está, pero no delante.
+- **Claude filtra, yo absorbo.** De cada libro, el 20 % que hace falta para seguir, con
+  la sección y la página de la fuente. Biblioteca en `BOOKS/` (fuera de Git); la principal
+  para motor e inversor es Hughes & Drury, *Electric Motors and Drives*, 5.ª ed.
+- **Formato de cada lección:** mi intento antes de leer → teoría corta → laboratorio del
+  modelo (toco un parámetro y veo el efecto) → casos prácticos ("estás en esta
+  situación, ¿qué harías?") → examen de memoria al día siguiente, que corriges tú.
+- **Visual siempre que haya geometría:** 3D, animaciones y esquemas interactivos (motor,
+  campo giratorio, inversor, circuitos). Me cuesta construir el mapa mental leyendo.
+- **"Práctico" significa modelo**, no vehículo: ejercicios, dibujos, simulaciones.
+  Mientras el ciclo diga "solo modelo", no se propone nada sobre el quad ni el VESC.
+- Las lecciones se publican como artifacts; su fuente HTML vive en `01_plan/C0X/`.
 
 ## Idioma
 
@@ -37,7 +62,7 @@ Numeradas por orden de flujo de trabajo, no alfabético.
 | `06_data/` | Ensayos reales, una carpeta por campaña `AAAA-MM-DD_<ensayo>`. Los crudos van en `raw/`, fuera de Git. |
 | `07_experiments/` | Hipótesis → medida → conclusión. |
 | `08_decisions/` | Decisiones con impacto: alternativas y razonamiento. |
-| `_tools/`, `_archive/` | Software de terceros (VESC Tool, firmware VESC, MCP server) y material retirado. **Fuera de Git.** |
+| `_tools/`, `_archive/`, `BOOKS/` | Software de terceros, material retirado y la biblioteca de libros. **Fuera de Git.** |
 
 `START-HERE.md` es el panel de entrada: dice qué toca hoy.
 

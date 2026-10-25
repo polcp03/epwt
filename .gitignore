@@ -50,7 +50,7 @@ venv/
 # las rehace _figures.py. Y los renders de verificacion, que hace _render.ps1.
 01_plan/presentations/assets/crops/
 01_plan/presentations/assets/figures/
-_renders/
+_renders*/
 .render/
 
 # Archivos de bloqueo de Office (~$Deck.pptx)
@@ -64,3 +64,6 @@ desktop.ini
 # Claude Code: la config compartida SI se versiona (.claude/settings.json),
 # la aprobacion del servidor MCP NO: es una decision de confianza por maquina.
 .claude/settings.local.json
+
+# Third-party books and course material (copyrighted, ~300 MB)
+BOOKS/
