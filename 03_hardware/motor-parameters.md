@@ -241,7 +241,7 @@ Y cierra la contradicción que tenía este documento: el par nominal de mercado
 de ~4,0 N·m **no corresponde a este motor**. Con `p = 3` y el `Kt = 0,0758 N·m/A`
 que sale de la λm medida, harían falta 53 A para 4 N·m, muy por encima de la citada
 (34–40 A). La referencia MY1020/BM1109 queda descartada como fuente fiable,
-justo como avisaba [[baseline]].
+justo como avisaba [baseline](baseline.md).
 
 ### Registro histórico del razonamiento
 

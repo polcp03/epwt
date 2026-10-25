@@ -172,7 +172,7 @@ class Deck:
         # than wrap and get clipped by it.
         size = B.SZ_TITLE if len(title) <= 42 else (23 if len(title) <= 52 else 20)
         self.text(sl, x_text, y, B.W - x_text - B.M, B.BAND_H, title,
-                  size=size, color=B.WHITE, bold=True,
+                  size=size, color=B.WHITE, bold=True, line=1.0,
                   anchor=MSO_ANCHOR.MIDDLE)
 
     # -- layouts -----------------------------------------------------------

@@ -1,5 +1,7 @@
 # DEC-001: Herramienta de organización personal
 
+> **Sustituida por [DEC-003](DEC-003-fuera-obsidian.md) (2026-10-25).** Obsidian no se llegó a usar.
+
 **Fecha:** 2026-09-01
 
 ## Decisión

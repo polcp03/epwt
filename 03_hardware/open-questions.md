@@ -106,10 +106,15 @@ configurado. La detección se aplicó bien.
 
 | Campo | Valor | Debería ser | Impacto |
 |---|---|---|---|
-| `si_gear_ratio` | 6,5 | 8,36 (92/11) | Velocidad y distancia reportadas **28 % altas** |
-| `si_motor_poles` | 6 | sin verificar | Solo display; no afecta al control |
+| `si_gear_ratio` | ~~6,5~~ → **8,363** | 8,36 (92/11) | ✅ Resuelto. El export del 09-09 ya decía 8,363: la nota del 6,5 era vieja |
+| `si_motor_poles` | ~~14~~ → **6** | 6 (p = 3 MEDIDO) | ✅ Corregido en el VESC y re-exportado el 01-10. **Sí** entra en la velocidad reportada |
+| `si_wheel_diameter` | 0,30 m | 2·r_roll ≈ 0,31 m | ⚠️ ~3 %. Decidir cuál vale cuando se mida el roll-out |
 | `si_battery_ah` | 13 | sin verificar | Solo estimación de autonomía |
 | `foc_encoder_ratio` | 7 | — | Irrelevante, no hay encoder |
+
+> [!success] Actualizado 2026-10-09
+> Lo de abajo describía el estado antes de corregir. Hoy el canal de velocidad
+> solo arrastra el ~3 % del diámetro de rueda.
 
 `si_gear_ratio` no afecta al control, pero **sí corrompe el canal de velocidad de
 todos los logs**. Como la regla nº3 de `04_model/CLAUDE.md` dice que el modelo no

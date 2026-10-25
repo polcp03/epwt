@@ -52,6 +52,7 @@ Todo vive en `_brand.py`. Un color no se escribe dos veces.
 | `_figures.py` | Genera badge, diagramas, gráficas y recortes a `assets/` |
 | `C00_kickoff.py` | El contenido del deck C00. Solo dice **qué** va, no **dónde** |
 | `_check.py` | Verificación geométrica: avisa del texto que desborda su caja |
+| `_audit.py` | Auditoría de números: cada cifra de cada slide contra las fuentes de verdad del repo |
 | `_render.ps1` | Renderiza el PPTX a PNG con PowerPoint, para revisarlo a ojo |
 | `_pdf.ps1` | Exporta el PPTX a PDF (lo que se comparte) |
 | `_template-DYN-09.pptx` | La plantilla original de Formula Student. Referencia, no se edita |
@@ -158,3 +159,49 @@ Si hay que recortar por tiempo, la que menos cuesta es la **11**.
   parece a calibrar uno térmico.
 - La slide de peticiones va sola y con fondo oscuro, y deja claro lo que **no** se
   les pide: validar FOC.
+
+---
+
+## C01 — review del 9 de octubre de 2026
+
+> [!success] Estado: v2 construida y verificada
+> `C01-review.pptx` / `.pdf` — 12 slides. `_check.py` OK, render revisado slide a slide.
+> v1 (noche del 8) se descartó entera tras el feedback de Pol: ver `C01-feedback-pol.md`.
+
+| Archivo | Qué es |
+|---|---|
+| `_figures_c01.py` | Figuras de C01 + recortes de foto nuevos (`assets/crops/c01_*.jpg`). Lee los CSV de `04_model/results/` |
+| `C01_review.py` | El deck. **Parsea `04_model/params/*.m`** y los CSV del modelo: ningún número está tecleado a mano |
+
+```bash
+./.venv/Scripts/python.exe 01_plan/presentations/_figures_c01.py
+./.venv/Scripts/python.exe 01_plan/presentations/C01_review.py
+./.venv/Scripts/python.exe 01_plan/presentations/_check.py 01_plan/presentations/C01-review.pptx
+./.venv/Scripts/python.exe 01_plan/presentations/_audit.py 01_plan/presentations/C01-review.pptx
+```
+
+Si cambia el modelo, antes: `04_model/scripts/run_predictions_L1.m` (regenera los CSV).
+
+| # | Slide | Qué responde |
+|---|---|---|
+| 01 | Portada | |
+| 02 | Why a model before the data | Neumáticos + ESP32 → modelo primero, predicciones congeladas |
+| 03 | The force balance, with numbers | La ecuación con cada valor y sus entradas |
+| 04 | Where every number comes from | MEASURED / VESC ESTIMATE / CONFIG / ASSUMED, con el porqué |
+| 05 | Where the limits are | Fuerza en rueda vs velocidad: 120 A → 40 A batería → tensión, y la carga de carretera |
+| 06 | The model: four blocks, one state | Diagrama limpio (no captura de Simulink) + chequeo contra C00 |
+| 07 | Predictions, frozen before the test | 4 predicciones con banda + las dos maniobras simuladas |
+| 08 | What moves the predictions | Tornado: qué parámetro mueve cada predicción |
+| 09 | Designing the tests | Coast-down desde 30 km/h (idea de Pol, comprobada) + instrumento por predicción |
+| 10 | What is in the model, and what is next | L1 / L2 / C02 |
+| 11 | What I need from you | Cómo fijar los límites de corriente (fondo oscuro: es la petición) |
+| 12 | Next: C02, motor and inverter | Propuesta de C02 + horizonte 2027 |
+
+> [!tip] Cambios de sistema hechos en C01
+> - `_deck._band`: interlineado 1,0 en el título. Era el "descuadre" del título que vio Pol:
+>   con 1,15 la línea era más alta que la banda. Afecta también a C00 si se reconstruye (a mejor).
+> - Títulos ≤ 42 caracteres en todo el deck, para que salgan todos al mismo tamaño.
+> - `_check.py` ya imprime en UTF-8 (antes se caía con `−` o `≤` en la consola de Windows).
+> - **Nuevo `_audit.py`:** la auditoría de números de la skill, automatizada. Cada número de
+>   cada slide → el archivo:línea del repo que lo respalda, o `NOT FOUND`. C01: 65 números, 0 sin origen.
+> - **Notas del orador:** cada slide lleva la pregunta probable del mentor (solo la pregunta).

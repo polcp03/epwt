@@ -4,7 +4,7 @@ Regla: **solo el ciclo activo está planificado en detalle.** Los siguientes exi
 como dirección, no como plan. Se concretan al abrirlos. Si esta lista empieza a crecer
 hacia abajo con detalle, es la señal de que estoy buscando el plan perfecto otra vez.
 
-Presupuesto: ~28 h por ciclo (2 h/día, fines de semana incluidos).
+Presupuesto: ~14 h por ciclo (1 h/día, desde el 20-oct; antes 2 h/día).
 
 ## Calendario real
 
@@ -12,16 +12,19 @@ Presupuesto: ~28 h por ciclo (2 h/día, fines de semana incluidos).
 > Sin ordenador. **No se planifica trabajo dentro de ese hueco.** Un proyecto que
 > exige trabajar en vacaciones el primer mes no llega al mes doce.
 
-| Ciclo | Fechas | Objetivo | Review |
-|---|---|---|---|
-| **C00** | 2 → 9 sep | Kickoff con mentores + primeras medidas | mar 8 o mié 9 sep |
-| — | 10 → 27 sep | *Vacaciones* | — |
-| **C01** | 28 sep → 11 oct | Caracterizar la planta: R, Ke, polos, vehículo | lun 12 oct |
-| **C02** | 12 → 25 oct | Modelo longitudinal validado con coast-down | lun 26 oct |
-| **C03** | 26 oct → 8 nov | PMSM en dq. Entender Clarke y Park | lun 9 nov |
-| **C04** | 9 → 22 nov | Inversor + lazo de corriente. Control de par | lun 23 nov |
-| **C05** | 23 nov → 6 dic | Instrumentar el vehículo (data logger) | lun 7 dic |
-| **C06** | 7 → 20 dic | Correlación modelo ↔ vehículo | lun 21 dic |
+| Ciclo   | Fechas          | Objetivo                                       | Review            |
+| ------- | --------------- | ---------------------------------------------- | ----------------- |
+| **C00** | 2 → 9 sep       | Kickoff con mentores + primeras medidas        | mar 8 o mié 9 sep |
+| —       | 10 → 27 sep     | *Vacaciones*                                   | —                 |
+| **C01** | 28 sep → 11 oct | Modelo longitudinal antes que datos (pivote 8-oct) — **hecho** | vie 9 oct |
+| **C02** | 20 → 30 oct     | Motor + inversor: **modelar y saber explicarlo**. Nada de validar. Ver [C02](C02.md) | **vie 30 oct** |
+| **C03** | 31 oct → 13 nov | Modelo dq (L3), primer control (lazo abierto/cerrado, PI) y el motor en Simulink (L4). Plan en Google Calendar (25-oct); artifacts aún sin construir | vie 13 nov        |
+| **C04** | 14 → 27 nov     | ⚠️ En discusión (20-oct)                       | vie 27 nov        |
+| **C05** | 28 nov → 11 dic | ⚠️ En discusión (20-oct)                       | vie 11 dic        |
+| **C06** | 12 → 25 dic     | ⚠️ En discusión (20-oct). Navidad: probablemente se mueve | vie 25 dic |
+
+**Secuencia decidida el 20-oct:** modelo de motor + inversor → data logger → validación
+(coast-down, correlación modelo ↔ vehículo). Sin logger no hay datos y sin datos no se valida.
 
 **Fin de 2026: modelo validado contra el vehículo real.** Ese es el objetivo del año.
 
@@ -55,10 +58,14 @@ El ciclo es el motor del proyecto. Sin ritual, es solo el nombre de una carpeta.
 > Es la costumbre más barata y de más valor del sistema. Sin ella, cada sesión
 > empieza a ciegas.
 
-> [!success] Cierre — última sesión antes de la review
+> [!success] Cierre — últimas sesiones antes de la review
 > 1. Rellenar Resultado / Qué aprendí / Qué salió mal.
-> 2. Ensayar la explicación en voz alta, con Claude de examinador.
-> 3. Si no lo sé explicar sin apuntes, **no está terminado**.
+> 2. **Examen del ciclo** (`C0X-examen.md`): Claude pregunta, yo respondo de memoria,
+>    veredicto por respuesta. **Mis respuestas corregidas son el guion del deck.**
+> 3. Acordar la lista de slides **antes** de que se construya nada (lección de C01).
+> 4. Deck con la skill `review-deck`: `_check.py` y `_audit.py` a cero antes de presentar.
+> 5. Ensayar en voz alta con la pregunta probable de cada slide (notas del orador).
+> 6. Si no lo sé explicar sin apuntes, **no está terminado**.
 
 ### La review, en 45 minutos
 
