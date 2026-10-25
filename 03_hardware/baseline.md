@@ -1,564 +1,135 @@
-# Hardware baseline — el quad tal y como está hoy
+# Hardware baseline — the quad as it is today
 
-Extraído del master technical context (agosto 2026). **Fuente de verdad del hardware.**
-Regla: cada valor debe estar marcado como MEDIDO o ASUMIDO. Lo que no esté medido, no entra en el modelo sin decirlo.
+**Source of truth for the hardware.** Last full review: 2026-10-25.
+
+Every value carries a tag: **MEASURED** (on this vehicle) · **VESC_ESTIMATE** (VESC
+detection, not independent) · **CONFIG** (typed in by a human) · **ASSUMED** (guess,
+must be replaced) · **MISSING**. Numbers that enter the model live in
+`04_model/params/*.m`; this file says what the hardware *is*, and points there.
+
+Detail and history: [motor-parameters](motor-parameters.md) ·
+[open-questions](open-questions.md) · [vesc/](vesc/README.md) ·
+[shopping-list](shopping-list.md).
 
 ---
 
-5. CURRENT VEHICLE BASELINE
-======================================================================
+## 1. Vehicle
+
+Nitro Motors mini-quad, tubular steel chassis, originally 36 V / 800 W lead-acid.
+Converted to Li-ion and a 48 V-class PMSM.
 
-Vehicle:
-Nitro Motors mini-quad platform.
+| Item | Value | Tag |
+|---|---|---|
+| Vehicle mass (no rider) | **38 kg** | MEASURED, scale, 2026-10-08 |
+| Rider mass | 72 kg | MEASURED, scale, 2026-10-08 |
+| Total | 110 kg | — |
+| Wheelbase | 0.71 m | ASSUMED (commercial reference) |
+| Static rear weight fraction | 0.65 | ASSUMED — needs a scale under each axle |
+| CG height `h_cg` | — | **MISSING** — needed for load transfer |
+
+Subjective: very good on dirt, drifts, rear wheels rarely spin (weight sits rearward).
 
-Original configuration:
-approximately 36 V / 800 W class electric mini-quad.
+## 2. Tyres and wheels
+
+Front 13×4.10-6, rear 13×5.00-6 TR13, 6 in rims, pneumatic knobby, tubed.
 
-Chassis:
-tubular steel structure.
+| Item | Value | Tag |
+|---|---|---|
+| Nominal radius | 165.1 mm | MEASURED (tyre size) |
+| Loaded rolling radius `r_roll` | 155 mm [150–160] | ASSUMED — **most leveraged unmeasured number** |
 
-Approximate commercial reference dimensions:
-- length: approximately 105 cm;
-- width: approximately 60–69 cm;
-- height: approximately 70 cm;
-- seat height: approximately 49–54 cm;
-- wheelbase: approximately 71 cm;
-- ground clearance: approximately 8.5 cm.
+Measure `r_roll` by roll-out (rider seated, 10 revolutions, `r = D/(20π)`), never with a
+ruler. Procedure in `04_model/params/vehicle_params.m`. New tyres bought (reported
+2026-10-20): measure once they are fitted — the old 155 mm guess does not carry over.
 
-Original vehicle mass has been referenced at approximately 45 kg.
-Lithium conversion is expected to reduce mass by approximately 5 kg compared with the original lead-acid battery system.
+## 3. Transmission
 
-IMPORTANT:
-These dimensions and masses are not yet frozen model parameters and should be measured on the actual vehicle.
+25H chain, **11T / 92T → i = 8.364** (MEASURED: teeth counted, confirmed by Hall count).
+Original 11/72; the change to 92T transformed launch and low-speed behaviour.
+Efficiency 0.95 [0.90–0.97] ASSUMED — never measured.
 
-The current driver mass used in previous calculations has been approximately 72 kg, giving a rough system mass of around 110–112 kg. This is an estimate and must be replaced by a measured baseline before the final vehicle model is parameterised.
+## 4. Motor
 
-UPDATE 2026-09-07 - the 40 kg figure now has two agreeing sources: the
-45 kg stock platform minus ~5 kg for the lead-acid -> Li-ion swap, and Pol
-lifting the quad and judging it "about 40 kg". Two independent estimates on
-the same number, but neither is a scale. Tagged ESTIMATED, not MEASURED.
+Donor: Urban Fox scooter, sold as "48 V ~1900 W BLDC". The market reference
+(MY1020/BM1109) is **ruled out** — its rated torque and current are inconsistent with
+the measured Kt. Treat any datasheet number as belonging to another motor.
 
-======================================================================
-6. TYRES / WHEELS
-======================================================================
+| Item | Value | Tag |
+|---|---|---|
+| Topology | Radial flux, **inner rotor**, outer wound stator, 3 phases | Observed by Pol |
+| Pole pairs `p` | **3** | MEASURED (Hall count) |
+| Flux linkage `λm` | **16.855 mWb** | MEASURED (3 methods, 0.02 %) |
+| `Rs` per phase | 28.02 mΩ | VESC_ESTIMATE (includes MOSFETs) |
+| `Ld` / `Lq` | 99.2 / 112.8 µH, **Lq/Ld = 1.136** | VESC_ESTIMATE at 40 A |
+| Rotor inertia | 1.558·10⁻⁴ kg·m² ±14 % | MEASURED |
+| Back-EMF THD | 9.4 % (5th, 7th) | MEASURED |
+| Kt | 0.0758 Nm/A | Derived |
+| Magnet arrangement (surface / inset / interior) | — | **MISSING** — saliency says *not pure surface* |
+| Stator slot count | — | **MISSING** |
+| Temperature sensor | none fitted | MEASURED |
 
-Current tyre sizes:
+Lq > Ld with a current-dependent ratio means the rotor has *some* saliency; it does
+not by itself prove interior magnets (see `02_knowledge/` for the reasoning). Settling
+it needs a look inside or an Ld/Lq-vs-angle measurement.
 
-Front:
-13 × 4.10-6 TR13
+## 5. Inverter — Flipsky FSESC 6.7 Mini Pro (VESC)
 
-Rear:
-13 × 5.00-6 TR13
+Product data: ~70 A continuous, 14–60 V, FOC, Hall support, CAN/USB/UART.
 
-Wheel/rim size:
-6 inch.
+Operating configuration (CONFIG, full list in `motor_params.m` and `vesc/`):
+FOC with Hall sensors, current control, PWM 30 kHz, current loop bandwidth 2000 rad/s,
+no decoupling, MTPA off, field weakening off.
 
-Tyres:
-pneumatic, tubed, knobby/off-road type.
+| Limit | Value |
+|---|---|
+| Motor current | ±120 A (abs 160 A) |
+| Battery current | **40 A** discharge / −35 A regen — equals BMS rating, do not raise |
+| Duty | 0.95 |
+| Battery cut-off | 44.2 → 39.0 V |
 
-Current application:
-dirt / grass / asphalt-capable recreational use.
+**CAN:** mode = UNUSED (bus silent). No on-board termination (217 Ω measured unpowered
+= transceiver leakage): both 120 Ω terminators must be external. Set CAN mode to VESC
+before any bus bring-up. **Any link VESC ↔ mains-referenced equipment needs galvanic
+isolation** (see EXP-001).
 
-The effective rolling radius remains a model-calibration parameter. Nominal tyre size is not sufficient to define the exact rolling radius under vehicle load.
+Observed in use: battery current peaks ~40 A, typical 20 A; at launch the motor-current
+limit is reached, then duty becomes the limit as speed rises.
 
-UPDATE 2026-09-07 - working values entered in the model.
-13 in nominal -> 330.2 mm OD -> 165.1 mm unloaded radius.
-Pol's observation: the mass sits well to the rear and the tyres run at low
-pressure, so the rear tyre visibly squashes. Model uses r_roll = 155 mm
-(about 6 % deflection), band 150-160 mm, tagged ASSUMED.
+## 6. Battery and BMS
 
-This is now the most leveraged unmeasured number in the whole vehicle: it
-divides torque into tractive force AND multiplies speed, so its error lands
-twice. Measure it by ROLL-OUT, not with a ruler: rider seated, mark the tyre,
-push the quad ten wheel revolutions in a straight line, r_roll = D/(10*2*pi).
-A ruler measures the deformed shape; only rolling measures the radius the
-vehicle actually travels on.
+13S5P, 65 × SINC ISR18650-26A (no verified datasheet), ~13 Ah.
+48.1 V nominal, 54.6 V full, 39.0 V empty.
+`R_int` 0.10 Ω [0.06–0.15] ASSUMED — measure from voltage sag in a log.
+Design assumption 5 A/cell = 25 A continuous; observed peaks ~40 A. **Risk 1** in
+[open-questions](open-questions.md).
 
-======================================================================
-7. TRANSMISSION
-======================================================================
+BMS: JK-BD4A17S4P, 40 A continuous, active balancing, Bluetooth only in use.
+Physical comms interface not verified (BMS stays mounted).
 
-Chain:
-25H.
+## 7. Driver inputs and sensors
 
-Current:
-11T motor sprocket / 92T rear sprocket.
+- Throttle: 3-wire 5 V Hall, wired directly to VESC ADC.
+- Brake switch: original, disconnected.
+- Wheel speed: 3144 Hall sensors + magnets available, not fitted.
+- IMU: GY-LSM6DS3 (6-axis), not fitted.
 
-Original:
-11T / 72T.
+## 8. Electronics and tools on hand
 
-Current ratio:
-92 / 11 ≈ 8.36:1.
+| Item | Status |
+|---|---|
+| ESP32-WROOM-32 (original) | **Destroyed** 2026-09-07 (ground loop, EXP-001) |
+| ESP32 ×3 (new) | Bought, reported 2026-10-20. Not yet used |
+| MCP2515 + TJA1050 CAN module | **Retired** — 5 V logic, not isolated |
+| microSD module + 16 GB card, D4184 DC/DC, protoboard | Available |
+| Oscilloscope, multimeter, soldering | Available. Floating phase voltages need a differential probe |
 
-The change from 72T to 92T produced a major improvement in vehicle launch and low-speed behaviour.
+Isolated CAN (ISO1050) and the rest: [shopping-list](shopping-list.md).
+**Firmware is parked until the data-logger cycle** (after C03, see roadmap).
 
-Current real-world observation:
-the quad performs very well on dirt, is capable of drift and is considered subjectively very fun to drive.
+## 9. Still open
 
-Current traction observation:
-major wheelspin is not currently a dominant problem. Because the driver/vehicle mass distribution places significant weight towards the rear, the driven rear tyres generally retain useful traction.
+Magnet arrangement · slot count · `r_roll` · `h_cg` · axle weights · `R_int` · cell
+current capability · drivetrain efficiency · control-loop period (15 vs 30 kHz) ·
+VESC firmware version · BMS overcurrent settings.
 
-Nevertheless, launch-control and traction-control are interesting future engineering functions and may be implemented once the necessary measurements and models exist.
-
-======================================================================
-8. MOTOR
-======================================================================
-
-Motor:
-48 V BLDC motor from an Urban Fox scooter donor.
-
-Market identification previously associated with:
-MY1020 / BM1109 type.
-
-Approximate market power:
-1900–2000 W.
-
-Previous reference values encountered:
-- nominal speed: approximately 4300 rpm;
-- no-load speed: approximately 5400 rpm;
-- nominal torque: approximately 4.0 N·m;
-- peak torque: approximately 6.9 N·m;
-- efficiency: approximately 82%;
-- nominal current: approximately 34–40 A depending on source;
-- peak current: approximately 41–46 A depending on source.
-
-IMPORTANT:
-The exact motor reference is NOT fully confirmed. These values must therefore remain reference estimates, not validated design specifications.
-
-UPDATE 2026-09-06 — the market reference is now positively RULED OUT.
-Pole pairs measured by Hall pulse counting: p = 3 (MEASURED, see motor-parameters.md).
-With the VESC flux linkage of 16.0 mWb this gives Kt = 0.0721 Nm/A, so the quoted
-"nominal torque of approximately 4.0 Nm" would require 55 A, well above the quoted
-nominal current of 34-40 A. The two figures cannot both describe this machine.
-Treat every number in the list above as belonging to a different motor. The only
-motor data that enters the model now comes from 04_model/params/motor_params.m.
-
-UPDATE 2026-09-06 — transmission ratio 92/11 independently confirmed by the same
-Hall count landing on its predicted value (25.1 pulses per rear-sprocket turn).
-
-The project will eventually characterise experimentally:
-- phase resistance;
-- phase inductance;
-- flux linkage;
-- back-EMF constant;
-- Kv;
-- pole pairs;
-- torque constant;
-- Hall sequence/angle;
-- mechanical speed;
-- thermal response;
-- losses;
-- possibly inertia.
-
-The motor currently works successfully on the vehicle.
-
-======================================================================
-9. VESC / INVERTER
-======================================================================
-
-Inverter:
-FLIPSKY FSESC 6.7 Mini Pro.
-
-Reference capabilities:
-- approximately 70 A continuous current;
-- approximately 200 A instantaneous/peak capability according to product information;
-- 14–60 V operating range;
-- programmable;
-- FOC / BLDC / DC modes;
-- current / duty-cycle / speed / position control;
-- regenerative braking support;
-- CAN;
-- USB;
-- UART;
-- SPI;
-- I2C;
-- Hall support;
-- 5 V @ 1 A BEC.
-
-The VESC is currently used as the low-level inverter and motor controller.
-
-Architectural intent:
-VCU/MCU = high-level vehicle control.
-VESC = low-level motor control and FOC.
-
-The project may later investigate the open-source VESC firmware in depth and potentially modify motor-control functions, including FOC and field weakening. This is long-term exploratory work, not an initial requirement.
-
-======================================================================
-10b. VESC CAN CONFIGURATION (source-tree defaults, 2026-09-07)
-======================================================================
-
-From `03_hardware/vesc/reference/appconf_default.h` (autogenerated by VESC Tool).
-NOT read back from the device - confirm in VESC Tool before trusting.
-
-- CAN baud rate: 2 = 500 kbit/s.
-- Controller ID: 15 -> status frames carry extended IDs 0x090F, 0x0E0F, 0x0F0F, 0x100F.
-- CAN status msgs R1: 15 = bitfield 0b1111 = status 1, 2, 3 and 4 enabled.
-- CAN status rate 1: 50 Hz.
-- CAN mode: 3 = CAN_MODE_UNUSED -> **CAN transmission disabled**.
-
-The last one matters: `comm_can.c:1533` only sends status frames when
-`can_mode == CAN_MODE_VESC` (0). With mode 3 the bus is silent regardless of wiring.
-Set CAN Mode to VESC in App Settings -> General before any bus bring-up.
-
-======================================================================
-10. CURRENT VESC CALIBRATION / OPERATION
-======================================================================
-
-Current control mode:
-current control.
-
-Rotor-position sensing:
-motor Hall sensors.
-
-Hall detection:
-performed using VESC Tool and successfully calibrated.
-
-Current observations:
-- motor-current limit used during experimentation: up to approximately 120 A;
-- battery-current peak observed: close to 40 A;
-- typical battery-current peaks/levels during tests: approximately 20–20+ A;
-- high motor current produces noticeable motor and wiring heating;
-- after changing to 11/92 gearing, the vehicle needs less motor current for the desired tractive performance and heating is reduced.
-
-The current experiments have demonstrated that the motor can operate successfully under load.
-
-Previous free-running/no-load tests produced very low current because little torque was required.
-
-The project aims to understand the VESC behaviour in depth rather than treating it as a black box.
-
-======================================================================
-11. VESC OBSERVED ERPM / DUTY-CYCLE BEHAVIOUR
-======================================================================
-
-During vehicle launch experiments:
-- current can rise strongly at low speed;
-- the VESC can reach the configured motor-current limit;
-- with increasing speed, duty cycle becomes increasingly important;
-- the system can transition from a current/torque-limited region toward a voltage/duty-limited region.
-
-The project will use these observations to understand:
-- back-EMF;
-- DC-bus voltage limitation;
-- duty-cycle limitation;
-- Iq/Id behaviour;
-- base-speed region;
-- field weakening.
-
-VESC reports ERPM, which is electrical RPM rather than necessarily mechanical shaft RPM.
-
-Mechanical RPM will eventually be independently validated to determine the actual motor pole-pair count.
-
-======================================================================
-12. BATTERY
-======================================================================
-
-Configuration:
-13S5P.
-
-Number of cells:
-65.
-
-Chemistry:
-Li-ion.
-
-Cell identification:
-SINC ISR18650-26A.
-
-Pack capacity:
-approximately 13 Ah.
-
-No verified public datasheet has been established for the exact SINC cell.
-
-A previous conservative engineering assumption was approximately 5 A continuous per cell, giving approximately 25 A for 5P. This is an engineering assumption only.
-
-Battery is currently functional and adequate for the current vehicle.
-
-Future option:
-custom battery with higher-quality/higher-current cells if the present pack becomes a demonstrated limitation.
-
-No decision has yet been made to replace the current battery.
-
-======================================================================
-13. BMS
-======================================================================
-
-Installed BMS:
-JIKONG / JK Smart BMS.
-
-Exact model:
-JK-BD4A17S4P.
-
-The installed pack is 13S and therefore within the model family's applicable series range.
-
-Reference product information for the model includes:
-- 7–17S Li-ion capability;
-- 40 A continuous discharge capability;
-- higher short-duration capability depending on configuration;
-- active balancing;
-- temperature monitoring;
-- Bluetooth;
-- CAN / RS485 options depending on hardware variant.
-
-The exact physical communication interface enabled on the installed BMS has NOT been verified because the BMS is mounted and will not be dismantled merely for inspection.
-
-Current BMS usage:
-primarily Bluetooth monitoring/configuration via mobile device.
-
-Observed use:
-monitoring cell voltages, pack state and current during vehicle tests.
-
-The BMS is not yet integrated into the ESP32 control architecture.
-
-======================================================================
-14. ACCELERATOR
-======================================================================
-
-Standard Hall-effect throttle.
-
-Known characteristics:
-- 3 wires;
-- 5 V supply;
-- analogue Hall output.
-
-Current architecture:
-Throttle → VESC ADC directly.
-
-Future architecture:
-Throttle → ESP32/VCU → high-level request → VESC via CAN.
-
-This transition should occur only after the autonomous logger and measurement infrastructure are functioning.
-
-======================================================================
-15. BRAKE
-======================================================================
-
-Original quad brake switch.
-
-Expected signal:
-digital ON/OFF.
-
-Current status:
-disconnected from the electronics.
-
-Future use:
-input to the ESP32/VCU.
-
-======================================================================
-16. WHEEL-SPEED SENSOR
-======================================================================
-
-Future hardware already available:
-- 3144 / 550A Hall sensors;
-- neodymium magnets.
-
-Planned mounting:
-front wheel / rim.
-
-Purpose:
-independent vehicle wheel-speed measurement.
-
-Future use:
-- launch-control development;
-- traction-control development;
-- wheel-slip estimation;
-- model/vehicle validation.
-
-Exact magnet count and sensor geometry remain to be defined.
-
-======================================================================
-17. IMU
-======================================================================
-
-Module:
-GY-LSM6DS3.
-
-Important correction:
-LSM6DS3 is NOT a GPS.
-
-It is a 6-axis IMU:
-- 3-axis accelerometer;
-- 3-axis gyroscope.
-
-Interfaces:
-I2C / SPI.
-
-Planned use:
-later-stage vehicle-dynamics observation, launch-control and traction-control research.
-
-It is intentionally NOT included in V1.
-
-======================================================================
-18. ELECTRONICS AVAILABLE
-======================================================================
-
-Confirmed development hardware:
-
-1 × ESP32-WROOM-32. **DESTROYED 2026-09-07** — internal short after a ground-loop
-event while wiring the first CAN sniffer. See `07_experiments/EXP-001-bucle-tierra-vesc-pc.md`.
-
-1 × MCP2515 + TJA1050 CAN module. **RETIRED** — not to be used against the VESC:
-5 V transceiver logic and no galvanic isolation.
-
-The MCP2515/TJA1050 module exposes:
-- INT;
-- SCK;
-- SI;
-- SO;
-- CS;
-- GND;
-- VCC.
-
-The module includes a 120 Ω termination jumper.
-
-1 × AMS1117-based microSD module.
-
-microSD interface:
-- CS;
-- SCK;
-- MOSI;
-- MISO;
-- VCC;
-- GND.
-
-1 × Kodak 16 GB microSD card.
-
-1 × GY-LSM6DS3.
-
-3144 / 550A Hall sensors.
-
-Neodymium magnets.
-
-1 × D4184 GA4D1K DC/DC module.
-
-1 × ESP32 Basic Starter Kit. Verified 2026-09-07: contains **no** ESP32 board.
-
-1 × protoboard.
-
-======================================================================
-19. INSTRUMENTATION / TOOLS
-======================================================================
-
-Available:
-- oscilloscope;
-- multimeter;
-- soldering equipment.
-
-The oscilloscope is intended to be used for:
-- Hall signal validation;
-- supply-noise investigation;
-- PWM/inverter observation where electrically safe;
-- validation of the current EMI/USB problem;
-- later experimental motor characterisation.
-
-A proper differential probe must be used for measurements that require floating phase-voltage measurement. The oscilloscope ground clip must not be connected arbitrarily to a switching motor phase.
-
-======================================================================
-
----
-
-39. CURRENT HARDWARE INVENTORY — MASTER LIST
-======================================================================
-
-VEHICLE / POWERTRAIN
-- Nitro Motors mini-quad chassis.
-- 48 V BLDC motor, approximately 1900 W, exact identification pending.
-- FLIPSKY FSESC 6.7 Mini Pro.
-- 13S5P Li-ion battery.
-- 65 SINC ISR18650-26A cells.
-- JK-BD4A17S4P BMS.
-- 11T motor sprocket.
-- 92T rear sprocket.
-- 25H chain.
-- 13×4.10-6 front tyre.
-- 13×5.00-6 rear tyre.
-- Standard 5 V Hall throttle.
-- Original brake switch.
-
-ELECTRONICS
-- ESP32-WROOM-32 ×1 — **DESTROYED 2026-09-07** (internal short, see EXP-001). Not usable.
-- MCP2515 + TJA1050 CAN module ×1 — **RETIRED**: 5 V logic, no galvanic isolation.
-  Replaced by an ISO1050 isolated module. See `shopping-list.md`.
-- 120 Ω termination jumper on CAN module.
-- AMS1117 microSD module ×1.
-- Kodak 16 GB microSD ×1.
-- GY-LSM6DS3 ×1.
-- 3144 / 550A Hall sensors.
-- Neodymium magnets.
-- D4184 GA4D1K DC/DC module.
-- ESP32 Basic Starter Kit.
-- Protoboard.
-
-TOOLS
-- Oscilloscope.
-- Multimeter.
-- Soldering equipment.
-
-======================================================================
-40. KNOWN HARDWARE INTERFACES
-======================================================================
-
-VESC CAN connector shown/identified:
-- GND (-)
-- CAN Low (CAL)
-- CAN High (CAH)
-- 5 V.
-
-MEASURED 2026-09-07: 217 Ω between CAN-H and CAN-L with the board unpowered.
-That is leakage through the unpowered transceiver, not a termination resistor —
-**this VESC has no bus termination**. Both 120 Ω terminators must be provided externally.
-
-VESC also has other ports including:
-- SENSE;
-- COMM;
-- SWD;
-- USB.
-
-Current V1 only requires CAN and a suitable 5 V/GND source, subject to final electrical verification.
-
-MCP2515 module:
-- INT;
-- SCK;
-- SI;
-- SO;
-- CS;
-- GND;
-- VCC.
-
-microSD module:
-- CS;
-- SCK;
-- MOSI;
-- MISO;
-- VCC;
-- GND.
-
-======================================================================
-41. OPEN / UNVERIFIED ITEMS
-======================================================================
-
-The following must NOT be treated as final values:
-
-- exact motor model;
-- exact motor manufacturer;
-- exact motor pole pairs;
-- exact motor mechanical RPM;
-- exact motor electrical constants;
-- exact motor continuous thermal capability;
-- exact vehicle mass;
-- exact mass with driver;
-- exact effective tyre radius;
-- exact CG location;
-- exact front/rear weight distribution;
-- exact battery cell discharge capability;
-- exact BMS communication interface enabled;
-- exact BMS configured overcurrent settings;
-- exact VESC firmware revision;
-- exact VESC Tool version;
-- exact VESC CAN status-message configuration;
-- exact V1 logger sampling rates;
-- exact logger power topology;
-- exact electrical compatibility/logic-level details between ESP32 and the specific MCP2515/TJA1050 module;
-- current regenerative-braking configuration;
-- exact wheel-speed sensor geometry.
-
-======================================================================
+Superseded source: the August 2026 "master technical context" (in `_archive/`).

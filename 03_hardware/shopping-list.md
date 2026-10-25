@@ -4,7 +4,7 @@ Actualizada 2026-09-07. Marcar `[x]` al recibir y mover al inventario de `baseli
 
 ## Prioridad 1 — bloquea el logger de CAN
 
-- [ ] **ESP32-WROOM-32 DevKit ×2**
+- [x] **ESP32-WROOM-32 DevKit** — comprados 3 (Pol, 2026-10-20)
   Buscar: `ESP32 WROOM 32 DevKit 38 pin`
   ~6 €/ud. Uno para el logger, otro para hacer de VESC falso en banco.
   El Starter Kit del inventario **no trae placa** (verificado 2026-09-07).
