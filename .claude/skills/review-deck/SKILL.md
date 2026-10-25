@@ -1,6 +1,6 @@
 ---
 name: review-deck
-description: Build, revise or audit a mentor-review slide deck for ePWT (the C0x kickoff/review presentations in 01_plan/presentations/). Use when Pol asks for a deck, slides, a presentation, a review deck, or asks to check/fix an existing one before presenting. Covers the editorial rules learned from the C00 feedback round, the mandatory number audit against the repo, and the build/verify loop.
+description: Build, revise or audit a mentor-review slide deck for ePWT (the C0x kickoff/review presentations in 01_plan/presentations/). Use when Pol asks for a deck, slides, a presentation, a review deck, or asks to check/fix an existing one before presenting. Covers the editorial rules learned from the C00 and C01 feedback rounds, the mandatory number audit against the repo (automated by _audit.py), the build/verify loop, and the order of work: agree the structure with Pol before building anything.
 ---
 
 # Review decks for ePWT
@@ -10,6 +10,22 @@ mechanics — palette, five layouts, primitives, rebuild commands — live in
 [`01_plan/presentations/README.md`](../../../01_plan/presentations/README.md).
 **Read that file before touching anything.** This skill is the part the README
 does not carry: what goes on a slide, and what has to be true before it does.
+
+## Order of work — the C01 lesson
+
+On 2026-10-08 Pol said "do the Simulink and the deck yourself" and got a full
+model and a full deck overnight. Verdict: *"good work, useless to me"* — he could
+not explain a model he had not shaped, and the deck missed half his rules. The
+whole deck was thrown away the next morning.
+
+So, every time, in this order:
+
+1. **Ask him the questions first** (`01_plan/C0X-examen.md`). His answers are the
+   script of the deck. Give a verdict per answer: ✅ / ⚠️ / ❌ with one line each.
+2. **Propose the slide list** (title + what it answers), and wait for his yes.
+3. Only then build. Slides carry his corrected answers, not your explanation.
+4. Audit, render, look, fix. Then hand him the likely question per slide
+   (speaker notes) — never the answer.
 
 ## The audience decides the content
 
@@ -65,7 +81,44 @@ not plan, and `01_plan/roadmap.md` is where it comes from.
 **One paragraph per slide, maximum, and only at the bottom as a band.** If a
 slide needs a paragraph to be understood, the paragraph is the problem.
 
+### Added after C01 (2026-10-09)
+
+**Never reuse an image from an earlier deck.** Pol noticed at once. Make new crops
+of his photos (`_figures_c01.crops()` shows how); there are only five photos, so
+vary the framing — tyre close-up, drivetrain, rear axle.
+
+**Every number with its origin, and every assumption with its why.** He asked
+"which μ, and why that μ?". A tag (MEASURED / VESC ESTIMATE / CONFIG / ASSUMED)
+on each value, and one short reason for each ASSUMED. C01 slide 04 is the pattern:
+four coloured columns, one card per parameter.
+
+**Cut what does not belong to this review.** The VESC pole-count fix and the
+weighed mass were real work, but they were not the story of a modelling review —
+he cut both. Ask of each slide: does it carry the argument of *this* cycle?
+
+**No raw Simulink screenshot.** Same rule as the raw scope trace. Draw the model
+as a few named blocks with the equation inside each (C01 slide 06,
+`_figures_c01.model_blocks()`), and keep the Simulink view for the repo.
+
+**Titles ≤ 42 characters.** Longer titles step down in size and the deck stops
+looking aligned. The band text also needs line spacing 1.0 (fixed in `_deck._band`).
+
+**Show where the limits are, not only what they are.** Three formulas did not
+land; one plot of wheel force against speed, with the three zones coloured and the
+road load crossing it, did (C01 slide 05). A limit belongs on the axis where it
+acts.
+
+**Model outputs come from the model, never typed.** The deck parses
+`04_model/params/*.m` and `04_model/results/*.csv`. Derived numbers are computed
+in the deck code *and* written down in the results file, so `_audit.py` resolves
+them.
+
+
 ## The number audit — do not skip this
+
+`_audit.py` does the grep: it lists every number on every slide with the first
+file:line in the sources of truth that holds it, or **NOT FOUND**. A match is a
+lead, not a proof — read the location. Zero NOT FOUND before presenting.
 
 Every number on a slide must resolve to `03_hardware/`, `04_model/params/`,
 `06_data/` or `03_hardware/vesc/*.xml`. Before any deck is presented, grep the
@@ -121,7 +174,8 @@ in the caption turns a weakness into evidence of rigour.
 ```bash
 ./.venv/Scripts/python.exe 01_plan/presentations/_figures.py
 ./.venv/Scripts/python.exe 01_plan/presentations/C0X_kickoff.py
-./.venv/Scripts/python.exe 01_plan/presentations/_check.py
+./.venv/Scripts/python.exe 01_plan/presentations/_check.py 01_plan/presentations/C0X-review.pptx
+./.venv/Scripts/python.exe 01_plan/presentations/_audit.py 01_plan/presentations/C0X-review.pptx
 powershell -File 01_plan/presentations/_render.ps1 01_plan/presentations/C0X-kickoff.pptx _renders
 powershell -File 01_plan/presentations/_pdf.ps1 01_plan/presentations/C0X-kickoff.pptx
 ```
@@ -154,3 +208,8 @@ explain it out loud without notes. When asked to examine: pick the slide with th
 weakest sourcing, ask why that method and not another, and ask what would have to
 be true for the number to be wrong. Do not accept an answer that restates the
 slide.
+
+Put the likely question for each slide in its **speaker notes** — the question,
+never the answer (`NOTES` in `C01_review.py`). Notes do not reach the PDF, and in
+presenter view they tell him which attack is coming. The same questions go in the
+cycle's exam file, so he can rehearse without the deck.

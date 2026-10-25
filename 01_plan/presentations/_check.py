@@ -184,5 +184,7 @@ def check(path, slack_in=0.02):
 
 
 if __name__ == "__main__":
+    # Slide text carries −, ≤, μ...: the Windows console codepage cannot print them.
+    sys.stdout.reconfigure(encoding="utf-8")
     deck = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "C00-kickoff.pptx")
     sys.exit(1 if check(deck) else 0)
