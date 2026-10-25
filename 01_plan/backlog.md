@@ -32,7 +32,7 @@ Si se construye, debe entregar **fuentes + preguntas**, no conclusiones.
 | Idea | Condición de entrada |
 |---|---|
 | **Agente examinador** (alimentado con libros de texto, me cuestiona antes de las reviews) | Que exista material de referencia elegido y ≥3 ciclos de rutina que codificar |
-| **Skills propias** (analizar datos, generar reporte, documentar decisión, preparar review) | Haber hecho la tarea a mano 3 veces. Antes, no hay proceso que codificar |
+| ~~**Skills propias**~~ | **Activado 2026-10-25:** `review-deck`, `leccion` y `corregir` existen. Siguientes (analizar datos, documentar decisión): misma regla, 3 veces a mano |
 | **CI: compilar el firmware en cada push** | Que haya firmware propio en el repo |
 | **Logger de telemetría propio (ESP32 + CAN)** | Que el gemelo necesite datos que el VESC Tool no da. Revisar VESC Express antes de escribir nada |
 | **Dashboard / análisis en Python de los logs** | Que existan los primeros CSV |
