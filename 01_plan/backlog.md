@@ -15,7 +15,7 @@ calibración, trabajo, proyectos. Obsidian como candidato. Referencia mencionada
 el trabajo de Karpathy sobre wiki/LLM en GitHub.
 *Por qué fuera:* es un proyecto de gestión del conocimiento, no de ingeniería de
 powertrain. Mezclarlo aquí fue la causa de la saturación inicial.
-*Nota:* `02_knowledge/` de este repo ya es Markdown plano y se puede abrir con Obsidian
+*Nota:* `02_knowledge/` de este repo ya es Markdown plano y se puede abrir con cualquier visor
 sin conversión. El second brain personal puede absorberlo más adelante.
 
 **Agentes de información / actualidad.** Síntesis semanal sobre robótica, defensa,

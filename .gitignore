@@ -38,11 +38,6 @@ venv/
 # viven en 06_data/<campana>/raw/, en local, indexados en 06_data/README.md.
 06_data/**/raw/
 
-# Obsidian: la configuracion SI se versiona, el layout de ventanas NO
-# (si no, salen conflictos de merge constantes)
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-
 # Salidas generadas del analisis
 04_model/results/*.json
 

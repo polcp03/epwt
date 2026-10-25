@@ -17,7 +17,7 @@ Presupuesto: ~14 h por ciclo (1 h/día, desde el 20-oct; antes 2 h/día).
 | **C00** | 2 → 9 sep       | Kickoff con mentores + primeras medidas        | mar 8 o mié 9 sep |
 | —       | 10 → 27 sep     | *Vacaciones*                                   | —                 |
 | **C01** | 28 sep → 11 oct | Modelo longitudinal antes que datos (pivote 8-oct) — **hecho** | vie 9 oct |
-| **C02** | 20 → 30 oct     | Motor + inversor: **modelar y saber explicarlo**. Nada de validar. Ver [[C02]] | **vie 30 oct** |
+| **C02** | 20 → 30 oct     | Motor + inversor: **modelar y saber explicarlo**. Nada de validar. Ver [C02](C02.md) | **vie 30 oct** |
 | **C03** | 31 oct → 13 nov | Modelo dq (L3), primer control (lazo abierto/cerrado, PI) y el motor en Simulink (L4). Plan en Google Calendar (25-oct); artifacts aún sin construir | vie 13 nov        |
 | **C04** | 14 → 27 nov     | ⚠️ En discusión (20-oct)                       | vie 27 nov        |
 | **C05** | 28 nov → 11 dic | ⚠️ En discusión (20-oct)                       | vie 11 dic        |

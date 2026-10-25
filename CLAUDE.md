@@ -55,7 +55,7 @@ Numeradas por orden de flujo de trabajo, no alfabético.
 | Carpeta | Qué contiene |
 |---|---|
 | `01_plan/` | **El esqueleto.** Ciclo activo, roadmap, visión, backlog, y las presentaciones con sus imágenes. Empieza siempre por el ciclo activo. |
-| `02_knowledge/` | Lo que aprendo, por temas. Markdown plano (Obsidian). |
+| `02_knowledge/` | Lo que aprendo, por temas. Mis respuestas corregidas, mis errores e índice de fuentes. |
 | `03_hardware/` | El quad: baseline y parámetros medidos. **Fuente de verdad** del hardware. |
 | `04_model/` | Simulink: gemelo digital. Tiene su propio `CLAUDE.md`. |
 | `05_firmware/` | Código embebido (ESP32 / Arduino). Tiene su propio `CLAUDE.md`. |

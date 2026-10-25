@@ -1,102 +1,53 @@
-# ePWT
+# ePWT — empieza aquí
 
-> [!abstract] El proyecto en una frase
-> Banco de aprendizaje de powertrain eléctrico. **El quad es la planta física, Simulink
-> es el gemelo digital, y el ciclo de dos semanas con mentores es el motor de progreso.**
-> Todo lo demás es subproducto.
->
-> **Objetivo 0:** convertirme en mejor ingeniero. Lo que no sirva a eso se corta o se aplaza.
+Banco de aprendizaje de powertrain eléctrico. **El quad es la planta física, Simulink es
+el gemelo digital, y el ciclo de dos semanas con mentores es el motor de progreso.**
+Objetivo 0: convertirme en mejor ingeniero, desde primeros principios, con un portfolio
+que lo demuestre.
 
----
+## Hoy
 
-## 🎯 Ahora mismo
+**C02 — Motor + inversor, solo modelo · review vie 30 oct.** Detalle en [C02](01_plan/C02.md).
 
-> [!todo] C02 — Motor + inversor, solo modelo · review **vie 30 oct**
-> **Abre el plan y haz solo lo de hoy:** [C02 · Plan de estudio](https://claude.ai/artifact/BQURLvXASA1aoiGCevCGTa)
->
-> | | |
-> |---|---|
-> | **Ciclo** | [[C02]] — lecciones, exámenes y entregable |
-> | **Ritmo** | 45–60 min mar–jue · sábado un ejercicio · predice → núcleo → laboratorio → criterio → cierre |
-> | **Fuera de alcance** | el vehículo y el VESC no se tocan; validación cuando haya data logger |
+| Día | Tarea (45–60 min) | Abrir |
+|---|---|---|
+| mar 27 | L1 · De la batería al par | [lección](https://claude.ai/artifact/F5pNX14PcUEVxtYv8zrwpN) |
+| mié 28 | L2 · El campo que gira | [lección](https://claude.ai/artifact/Fxcfde7icEog8iBLodXWTp) |
+| jue 29 | Examen L1+L2 y acordar slides | [examen](https://claude.ai/artifact/2o9NrZ6BgGsVTbg18AX3rZ) |
+| vie 30 | Review con mentores | deck en `01_plan/presentations/` |
 
-> [!success] C01 cerrado — review hecha
-> Modelo longitudinal L1 presentado y entendido por los mentores. Ver [[C01]].
+Haz solo la fila de hoy. El día exacto también está en Google Calendar (07:00).
 
-> [!info] El año, de un vistazo
-> | | |
-> |---|---|
-> | **C00** · 2–9 sep | Kickoff |
-> | **C01** · 28 sep–9 oct | Modelo longitudinal |
-> | **C02** · 21–30 oct | Motor + inversor: modelar y explicar ← *estás aquí* |
-> | **C03–C06** | Reviews 13 nov · 27 nov · 11 dic · 25 dic (se moverá) |
->
-> **Secuencia:** modelo de motor + inversor → data logger → validación con datos reales.
+## Dónde está cada cosa
 
-## 🗺️ El camino
+| Carpeta | Qué hay | ¿La abro? |
+|---|---|---|
+| `01_plan/` | Ciclo activo, roadmap, backlog, decks. `cerrados/` = ciclos terminados | **A diario** |
+| `02_knowledge/` | Lo que he aprendido, en mis palabras, y mis errores | Antes de cada examen |
+| `03_hardware/` | El quad: lo medido. Fuente de verdad | Cuando necesito un número |
+| `04_model/` | Simulink: gemelo digital | En las tareas de modelo |
+| `05_firmware/` | ESP32 / Arduino — **parado** hasta T1 2027 | No |
+| `06_data/` | Ensayos por campaña | Cuando haya datos |
+| `07_experiments/` · `08_decisions/` | Hipótesis → medida; decisiones con su porqué | Al cerrar algo |
+| `BOOKS/` | Biblioteca (fuera de Git). Índice en [fuentes](02_knowledge/fuentes.md) | Lo filtra Claude |
 
-> [!example]- C01 → C06 (desplegar)
-> | Ciclo | Objetivo |
-> |---|---|
-> | C01 | Modelo longitudinal ✓ |
-> | **C02** | Motor + inversor: Clarke, Park, modelo dq ← *estás aquí* |
-> | C03–C06 | En discusión: lazo de corriente → data logger → validación |
->
-> Después: control de tracción, launch control y **MPC**.
-> Detalle en [[roadmap]].
+## Mis tres reglas
 
----
+1. **Solo existe el ciclo activo.** Toda idea nueva va a [backlog](01_plan/backlog.md).
+2. **Si un día se cae, se cae.** No se recupera acumulando.
+3. **Si importa, se escribe y se commitea.** Cerrar cada sesión con una línea en la
+   bitácora del ciclo y un commit.
 
-## 📂 Dónde está cada cosa
+## Seguridad — no negociable
 
-> [!info]- Navegación
-> **Planificar** → [[C02]] · [[roadmap]] · [[backlog]] · [[vision]]
-> **Aprender** → [[git-workflow]] · [[claude-code-sessions]] · [[obsidian-setup]]
-> **El quad** → [[baseline]] · [[open-questions]]
-> **Decisiones** → [[DEC-001-herramienta-de-organizacion]] · [[DEC-002-entorno-tecnico]]
+Batería 13S5P Li-ion. Picos de **~40 A** contra una asunción de diseño de 25 A, y el
+BMS corta a 40 A continuos. Ningún ensayo de corriente alta sin: límite configurado en
+el VESC · comprobar temperatura del pack al terminar · **nunca cargar sin supervisión**.
 
-| Carpeta | Qué hay |
-|---|---|
-| `01_plan/` | Ciclos, roadmap, visión, backlog |
-| `02_knowledge/` | Lo que aprendo, por temas |
-| `03_hardware/` | El quad: baseline y medidas |
-| `04_model/` | Simulink |
-| `05_firmware/` | ESP32 / Arduino |
-| `06_data/` | Ensayos, por campaña con fecha |
-| `07_experiments/` | Hipótesis → medida → conclusión |
-| `08_decisions/` | Decisiones y alternativas |
+## Si eres una sesión nueva
 
----
-
-## 🧭 Si eres una sesión nueva, lee esto primero
-
-> [!abstract]- Cómo orientarse en 2 minutos
-> 1. **`CLAUDE.md`** — cómo trabajar con Pol, mapa del repo, entorno, seguridad.
-> 2. **Este panel** — qué toca hoy y qué está bloqueado.
-> 3. **El ciclo activo** en `01_plan/` — el plan concreto con casillas.
-> 4. Si el trabajo es de un área con `CLAUDE.md` propio (`04_model/`, `05_firmware/`),
->    **léelo antes de responder nada sustantivo**. Pol trabaja por voz desde la raíz.
->
-> **No vuelvas a abrir la estrategia.** [[vision]] y [[backlog]] están cerrados;
-> se leen una vez, no se rediscuten. Si aparece una idea nueva, va a [[backlog]].
->
-> Lo que NO hay en esta máquina: Node, LibreOffice. Lo que sí: Python en `.venv/`,
-> MATLAB por MCP (con MATLAB abierto), `arduino-cli`, `git` y `gh`.
-
----
-
-## ⚖️ Mis tres reglas
-
-> [!warning] Las que evitan que me sabotee
-> 1. **Solo existe el ciclo activo.** Toda idea nueva va a [[backlog]], no a mi cabeza.
-> 2. **Si un día se cae, se cae.** No se recupera acumulando.
-> 3. **Si importa, se escribe.** Cerrar cada sesión con una línea en la bitácora.
-
----
-
-> [!danger] Seguridad — no negociable
-> Batería 13S5P Li-ion. Picos de **~40 A** contra una asunción de diseño de 25 A,
-> y el BMS corta a 40 A continuos.
->
-> Ningún ensayo de corriente alta sin: límite configurado en el VESC · comprobar
-> temperatura del pack al terminar · **nunca cargar sin supervisión**.
+1. `CLAUDE.md` — cómo trabajar con Pol (modo ingeniero senior, cerebro primero).
+2. Este archivo — qué toca hoy.
+3. El ciclo activo en `01_plan/`.
+4. Si el trabajo cae en `04_model/` o `05_firmware/`, lee su `CLAUDE.md` antes de responder.
+5. Lecciones → skill `leccion`. Corregir respuestas → skill `corregir`. Deck → skill `review-deck`.
