@@ -24,6 +24,14 @@ ocultas produce resultados convincentes y falsos.
 Antes de usar el modelo para diseñar control, tiene que reproducir un ensayo real
 medido (`06_data/`). Hasta entonces es una hipótesis, no una herramienta.
 
+## Regla nº3b — Las predicciones se congelan antes de medir
+
+Desde C01. Una predicción se escribe con su banda en `results/C0X_predictions.md`
+**antes** del ensayo que la comprueba, y no se retoca después. Si una entrada
+cambia antes del ensayo (p. ej. una masa que pasa a MEDIDA), se publica una
+versión nueva y se dice qué cambió y por qué no es re-ajustar. Ajustar parámetros
+con un ensayo y "validar" con el mismo ensayo no valida nada: se valida con otro.
+
 ## Cómo enseñarme
 
 Antes de un bloque, la física. Antes del modelo, la ecuación. Quiero saber qué
@@ -49,6 +57,19 @@ scripts/    scripts de ensayo, comparación modelo-vs-datos, plots
 results/    figuras y salidas de correlación
 ```
 
+## Qué hay ahora (2026-10-09)
+
+| Archivo | Qué es |
+|---|---|
+| `scripts/build_longitudinal_L1.m` | Construye `models/longitudinal_L1.slx` desde cero. **El script es la fuente revisable**; el `.slx` es un artefacto |
+| `scripts/run_predictions_L1.m` | Predicciones C01 + barrido de sensibilidad + CSV para el deck |
+| `scripts/build_longitudinal_L2.m` | L2 = L1 reagrupado en 4 subsistemas + 2 huecos vacíos (load transfer, launch control) |
+| `scripts/run_regression_L1_L2.m` | L2 tiene que dar lo mismo que L1 mientras los huecos estén vacíos |
+| `results/C01_predictions.md` | Predicciones congeladas, v2 |
+
+Construir un `.slx` desde un script cumple la regla nº1 mejor que editarlo a mano:
+cada bloque y cada conexión quedan en texto y salen en el diff.
+
 ## Regla nº4 — El agente lee y simula; los bloques los pongo yo
 
 El Simulink Agentic Toolkit expone tools de **escritura** sobre el `.slx` (crear y
@@ -64,3 +85,8 @@ Reparto:
   comparar contra `06_data/`, escribir y ejecutar `.m` de `params/` y `scripts/`,
   señalar qué no cuadra y por qué.
 - **Yo**: colocar y conectar los bloques.
+
+> [!warning] Excepción registrada — C01, 2026-10-08
+> L1 y la estructura de L2 los construyó el agente, a petición explícita, con la
+> review al día siguiente. Resultado: un modelo que no sabía explicar, y una noche
+> de preguntas para reconquistarlo. **Los huecos de L2 los relleno yo.**

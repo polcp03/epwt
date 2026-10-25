@@ -18,15 +18,19 @@ veh.z_motor      = 11;             % [-] MEASURED
 veh.z_wheel      = 92;             % [-] MEASURED
 veh.i_gear       = veh.z_wheel / veh.z_motor;   % 8.3636 [-]
 
-% >>> LOGGING HAZARD <<<
-% The VESC still has si_gear_ratio = 6.5, i.e. the OLD 72/11 = 6.55 setup.
-% It does not affect the control law - only the reported speed, distance and
-% tachometer. But those are exactly the channels 06_data/ will be correlated
-% against, and they come out 28 % high. One field to fix on the device; until
-% then, do not trust any VESC speed channel, or rescale it by 6.5/8.3636.
-veh.vesc_speed_correction = 6.5 / (92/11);   % 0.7773 - apply to legacy logs
+% >>> LOGGING HAZARD - status 2026-10-09 <<<
+% An older note here said the VESC had si_gear_ratio = 6.5 (the old 72/11
+% setup), i.e. speed channels 28 % high. The exports in 03_hardware/vesc/
+% (2026-09-09 and the re-export of 2026-10-01) both read si_gear_ratio = 8.363,
+% so that note was stale. The 2026-10-01 re-export also fixed
+% si_motor_poles 14 -> 6 (p = 3 MEASURED), which DOES enter the speed channel.
+% Still open: si_wheel_diameter = 0.30 m on the device vs 2*r_roll = 0.31 m
+% here (~3 %). For logs taken BEFORE 2026-10-01 the poles error applies; the
+% factor depends on the formula the firmware uses - check before rescaling.
+% (the old 6.5/8.3636 correction factor was removed: it was based on the stale note)
 
-veh.eta_drive    = NaN;            % [-] chain + bearing efficiency  MISSING
+veh.eta_drive    = 0.95;           % [-] ASSUMED (C01) chain + bearings, typical roller chain
+veh.eta_drive_range = [0.90 0.97]; % [-] plausible band - replace with coastdown
 
 %% ------------------------------------------------------------------
 %% 2. Wheels and tyres
@@ -60,26 +64,40 @@ veh.r_roll_range = [0.150 0.160];  % [m] plausible band until measured
 %% ------------------------------------------------------------------
 %% 3. Masses
 %% ------------------------------------------------------------------
-% Vehicle mass without rider. ESTIMATED, but now from two agreeing sources:
+% Vehicle mass without rider. History - it was ESTIMATED from two sources:
 %   - 45 kg stock platform minus ~5 kg from the lead-acid -> Li-ion swap
 %   - Pol lifted the quad 2026-09-07 and judged it "about 40 kg"
 % Two independent estimates landing on the same number is worth more than one,
 % but neither is a scale. Weigh it when convenient - see the sensitivity note
 % at the bottom of this file for how much it is worth.
-veh.m_vehicle    = 40;             % [kg] ESTIMATED
-veh.m_driver     = 72;             % [kg] ASSUMED - Pol's mass, easy to confirm
-veh.m_total      = veh.m_vehicle + veh.m_driver;   % 112 kg
+% 2026-10-08: WEIGHED on a scale -> 38 kg. The 40 kg estimate was 5 % high,
+% i.e. inside its own declared +/-5 % band.
+veh.m_vehicle    = 38;             % [kg] MEASURED (scale, tyres flat)
+veh.m_driver     = 72;             % [kg] MEASURED (scale, 2026-10-08)
+veh.m_total      = veh.m_vehicle + veh.m_driver;   % 110 kg
 
 veh.wheelbase    = 0.71;           % [m] ASSUMED (commercial reference)
 veh.h_cg         = NaN;            % [m] CG height  MISSING - needed for load
                                    %     transfer, i.e. for any traction work
-veh.x_cg         = NaN;            % [-] static rear weight fraction  MISSING
+veh.x_cg         = 0.65;           % [-] static rear weight fraction  ASSUMED (C01)
+veh.x_cg_range   = [0.55 0.75];    % [-] needs one scale under each axle
+veh.mu           = 0.60;           % [-] tyre-road peak friction  ASSUMED (C01)
+veh.mu_range     = [0.45 0.75];    % [-] dirt / loose ground, where the quad is
+                                   %     driven. Textbook order of magnitude, no
+                                   %     tyre data. v2 used 0.75 [0.60 0.90] =
+                                   %     dry asphalt: wrong surface (Pol, 9 oct)
+% Rotating inertia of the 4 wheels, as an equivalent translating mass J/r^2.
+% Not weighed, not measured. Order of magnitude only.
+veh.m_rot_wheels = 4;              % [kg] ASSUMED (C01)
+veh.m_rot_wheels_range = [2 8];    % [kg]
 
 %% ------------------------------------------------------------------
 %% 4. Road and aerodynamic loads
 %% ------------------------------------------------------------------
-veh.Crr          = NaN;            % [-]     rolling resistance  MISSING
-veh.CdA          = NaN;            % [m^2]   drag area          MISSING
+veh.Crr          = 0.030;          % [-]     rolling resistance  ASSUMED (C01)
+veh.Crr_range    = [0.020 0.045];  % [-]     low-pressure knobby on asphalt; no source measured
+veh.CdA          = 0.60;           % [m^2]   drag area          ASSUMED (C01)
+veh.CdA_range    = [0.45 0.80];    % [m^2]   upright rider + quad; no CFD, no test
 veh.rho_air      = 1.20;           % [kg/m^3] ASSUMED, ~20 degC sea level
 veh.g            = 9.81;           % [m/s^2]
 veh.slope        = 0;              % [rad]   test surface assumed flat
@@ -97,7 +115,8 @@ bat.capacity_Ah  = 13;             % [Ah] ASSUMED (5 x 2.6 Ah nominal)
 bat.v_nom        = 48.1;           % [V] 13 x 3.70
 bat.v_max        = 54.6;           % [V] 13 x 4.20
 bat.v_min        = 39.0;           % [V] 13 x 3.00, matches the VESC cut-off end
-bat.R_int        = NaN;            % [Ohm] pack internal resistance  MISSING
+bat.R_int        = 0.10;           % [Ohm] pack internal resistance  ASSUMED (C01)
+bat.R_int_range  = [0.06 0.15];    % [Ohm] no cell datasheet; needs V-sag vs I from logs
 bat.OCV_soc      = NaN;            % [V] OCV vs SoC curve            MISSING
 % R_int is what turns a battery-current limit into a voltage sag, which is what
 % actually clips available torque at high current. Without it the model will
@@ -111,7 +130,7 @@ veh.F_per_Nm   = veh.i_gear / veh.r_roll;      % [N per Nm of motor torque]
 
 % Vehicle inertia seen from the motor shaft, i.e. the translating mass turned
 % into an equivalent rotating inertia:  J_eq = m * r_roll^2 / i_gear^2
-veh.J_equiv    = veh.m_total * veh.r_roll^2 / veh.i_gear^2;   % ~0.0385 kg*m^2
+veh.J_equiv    = veh.m_total * veh.r_roll^2 / veh.i_gear^2;   % ~0.0378 kg*m^2 (110 kg)
 
 %% ------------------------------------------------------------------
 %% 7. WHERE THE MODEL ERROR ACTUALLY COMES FROM
@@ -119,7 +138,7 @@ veh.J_equiv    = veh.m_total * veh.r_roll^2 / veh.i_gear^2;   % ~0.0385 kg*m^2
 % Run this once mot is loaded (motor_params.m) and the priorities are obvious:
 %
 %   rotor inertia            1.558e-4 kg*m^2      0.4 % of the total
-%   vehicle, seen from motor 3.85e-2  kg*m^2     99.6 % of the total
+%   vehicle, seen from motor 3.78e-2  kg*m^2     99.6 % of the total
 %
 % The rotor is 250 times lighter than the vehicle it has to accelerate. So:
 %   - refining J_rotor beyond its current +/-14 % changes the answer by 0.06 %
@@ -127,11 +146,13 @@ veh.J_equiv    = veh.m_total * veh.r_roll^2 / veh.i_gear^2;   % ~0.0385 kg*m^2
 %
 % Sensitivity of predicted acceleration, in descending order:
 %   r_roll     +/-6 %   ASSUMED   <- roll-out test, 5 min, needs wheels
-%   m_total    +/-5 %   ESTIMATED <- a bathroom scale
-%   Crr        unknown  MISSING   <- coastdown
-%   eta_drive  unknown  MISSING   <- coastdown
-%   CdA        unknown  MISSING   <- coastdown, weakly observable below 50 km/h
+%   m_total    done     MEASURED  2026-10-08, scale (38 + 72 kg)
+%   Crr        range    ASSUMED   <- coastdown
+%   eta_drive  range    ASSUMED   <- coastdown
+%   CdA        range    ASSUMED   <- coastdown, weakly observable below 50 km/h
 %   J_rotor    +/-14 %  MEASURED  <- already far better than needed
+% The full one-at-a-time sweep over these ranges, with numbers, is in
+% 04_model/results/C01_predictions_table.md (scripts/run_predictions_L1.m).
 %
 % Every hour spent on the motor from here buys less than a minute spent on the
 % chassis. The machine is now the best-characterised part of this vehicle.
