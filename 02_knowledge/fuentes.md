@@ -1,6 +1,6 @@
 # Fuentes — qué leer para cada tema
 
-Biblioteca en `BOOKS/` de la raíz del repositorio (`../BOOKS/` desde `epwt/`; fuera de Git, copyright). Claude filtra el 20 % que hace falta
+Biblioteca en `BOOKS/` de la raíz del repositorio (`../BOOKS/` desde `PROJECT_ePWT/`; fuera de Git, copyright). Claude filtra el 20 % que hace falta
 y cita sección y página. Esta tabla dice **dónde mirar**, no que haya que leerlo entero.
 
 | Tema | Libro principal | Capítulos | Ciclo |

@@ -8,17 +8,17 @@ Todo lo demás es subproducto.
 Para qué: un portfolio que demuestre primeros principios ante empresas de EV, propulsión
 y control en Israel. Saber explicarlo en una entrevista es la prueba final.
 
-> **Dónde vive (desde el 30-oct-2026).** ePWT es la carpeta `epwt/` dentro del repositorio
+> **Dónde vive (desde el 30-oct-2026).** ePWT es la carpeta `PROJECT_ePWT/` dentro del repositorio
 > NEWS_Engineering, junto al brief semanal y a `carrera/` (la preparación para Israel). Se
 > unió para que una sola sesión vea el quad y el currículum a la vez. Consecuencias:
-> - **Todas las rutas de este fichero son relativas a `epwt/`.** Desde la raíz: `epwt/01_plan/`…
-> - **Estas reglas mandan solo en `epwt/`.** El modo ingeniero senior y "cerebro primero"
+> - **Todas las rutas de este fichero son relativas a `PROJECT_ePWT/`.** Desde la raíz: `PROJECT_ePWT/01_plan/`…
+> - **Estas reglas mandan solo en `PROJECT_ePWT/`.** El modo ingeniero senior y "cerebro primero"
 >   no se aplican al brief ni a `carrera/`, que tienen las suyas en el `CLAUDE.md` de la raíz.
 > - **Git:** se trabaja en `polcp03/NEWS_Engineering` (privado). `polcp03/epwt` es el
 >   **portfolio público**: una copia de esta carpeta que la tarea «Sincronizar con GitHub»
 >   actualiza cada noche con lo ya fusionado. **Nunca se edita allí.** Todo lo que se escriba
->   en `epwt/` acaba siendo público. Para ePWT se sigue trabajando con rama + Pull Request;
->   `git pull --no-rebase`, nunca rebase. Commits de `epwt/` en inglés, como siempre.
+>   en `PROJECT_ePWT/` acaba siendo público. Para ePWT se sigue trabajando con rama + Pull Request;
+>   `git pull --no-rebase`, nunca rebase. Commits de `PROJECT_ePWT/` en inglés, como siempre.
 > - Skills (`leccion`, `corregir`, `review-deck`), `.mcp.json` y `BOOKS/` están en la raíz.
 > - **Al cerrar un ciclo**, apunta lo demostrado en `../carrera/logros.md`. Es de donde sale
 >   el currículum.
@@ -122,7 +122,7 @@ desde la raíz del repositorio (NEWS_Engineering), sin hacer `cd`. Por tanto:
 > En cuanto el trabajo de una sesión caiga en un área con `CLAUDE.md` propio,
 > **léelo antes de responder nada sustantivo.** No esperes a que te lo pidan.
 
-Si en cambio la sesión se lanza con `cd epwt/04_model && claude`, ese archivo se carga solo.
+Si en cambio la sesión se lanza con `cd PROJECT_ePWT/04_model && claude`, ese archivo se carga solo.
 Las dos vías son válidas; la primera exige que yo lea, la segunda es automática.
 
 ## Reglas de trabajo
@@ -138,7 +138,7 @@ Las dos vías son válidas; la primera exige que yo lea, la segunda es automáti
 
 | Qué | Cómo se invoca |
 |---|---|
-| Python + análisis | `./.venv/Scripts/python.exe` desde `epwt/` (dependencias en `requirements.txt`) — numpy, pandas, matplotlib, scipy, control |
+| Python + análisis | `./.venv/Scripts/python.exe` desde `PROJECT_ePWT/` (dependencias en `requirements.txt`) — numpy, pandas, matplotlib, scipy, control |
 | MATLAB / Simulink | MCP `matlab` (**requiere MATLAB abierto**) o `matlab -batch "..."`, ~25 s |
 | Arduino / ESP32 | `$LOCALAPPDATA/Programs/Arduino IDE/resources/app/lib/backend/resources/arduino-cli.exe`, core `esp32:esp32` |
 | Git / GitHub | `git` + `gh` (PRs desde terminal) |
