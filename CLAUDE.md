@@ -14,7 +14,7 @@ y control en Israel. Saber explicarlo en una entrevista es la prueba final.
 > - **Todas las rutas de este fichero son relativas a `PROJECT_ePWT/`.** Desde la raíz: `PROJECT_ePWT/01_plan/`…
 > - **Estas reglas mandan solo en `PROJECT_ePWT/`.** El modo ingeniero senior y "cerebro primero"
 >   no se aplican al brief ni a `carrera/`, que tienen las suyas en el `CLAUDE.md` de la raíz.
-> - **Git:** se trabaja en `polcp03/NEWS_Engineering` (privado). `polcp03/epwt` es el
+> - **Git:** se trabaja en `polcp03/NEWS_Engineering` (privado). `polcp03/PROJECT_ePWT` es el
 >   **portfolio público**: una copia de esta carpeta que la tarea «Sincronizar con GitHub»
 >   actualiza cada noche con lo ya fusionado. **Nunca se edita allí.** Todo lo que se escriba
 >   en `PROJECT_ePWT/` acaba siendo público. Para ePWT se sigue trabajando con rama + Pull Request;
