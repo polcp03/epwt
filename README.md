@@ -13,6 +13,9 @@ embedded target.
 
 Work runs in two-week cycles, each closed by a review with engineering mentors.
 
+This repository is published from the author's private workspace and is updated after
+each reviewed change, with its full commit history.
+
 ## Repository
 
 | Path | Contents |

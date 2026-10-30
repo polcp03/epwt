@@ -14,10 +14,11 @@ y control en Israel. Saber explicarlo en una entrevista es la prueba final.
 > - **Todas las rutas de este fichero son relativas a `epwt/`.** Desde la raíz: `epwt/01_plan/`…
 > - **Estas reglas mandan solo en `epwt/`.** El modo ingeniero senior y "cerebro primero"
 >   no se aplican al brief ni a `carrera/`, que tienen las suyas en el `CLAUDE.md` de la raíz.
-> - **Git:** un solo repositorio, `polcp03/NEWS_Engineering`. El antiguo `polcp03/epwt` (público)
->   ya no recibe trabajo. Para ePWT se sigue trabajando con rama + Pull Request;
->   las rutinas de la nube suben el brief directo a `master`, así que `git pull` antes de
->   empezar. Commits de `epwt/` en inglés, como siempre.
+> - **Git:** se trabaja en `polcp03/NEWS_Engineering` (privado). `polcp03/epwt` es el
+>   **portfolio público**: una copia de esta carpeta que la tarea «Sincronizar con GitHub»
+>   actualiza cada noche con lo ya fusionado. **Nunca se edita allí.** Todo lo que se escriba
+>   en `epwt/` acaba siendo público. Para ePWT se sigue trabajando con rama + Pull Request;
+>   `git pull --no-rebase`, nunca rebase. Commits de `epwt/` en inglés, como siempre.
 > - Skills (`leccion`, `corregir`, `review-deck`), `.mcp.json` y `BOOKS/` están en la raíz.
 > - **Al cerrar un ciclo**, apunta lo demostrado en `../carrera/logros.md`. Es de donde sale
 >   el currículum.

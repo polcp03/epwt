@@ -51,6 +51,14 @@ Si se construye, debe entregar **fuentes + preguntas**, no conclusiones.
 
 ## Higiene de Git: qué automatizar y qué no
 
+> **Actualizado el 2026-10-30: ya se automatiza, con revisión.** Pol decidió que no quiere
+> hacer el trabajo de git a mano: lo hace un agente y él es el revisor. La tarea
+> «Sincronizar con GitHub» (cada noche, 22:00, en el PC) agrupa los cambios por tema en
+> commits con su porqué, abre un Pull Request y Pol lo fusiona. Eso responde a la objeción
+> de abajo: el criterio lo pone el agente y Pol lo valida en el PR, en vez de un commit
+> automático a ciegas. Procedimiento en `../prompts/sincronizar.md`. Lo de abajo queda
+> como historia.
+
 Abierto el 2026-09-09, tras una operación de rescate: 46 archivos nuevos y 24
 modificados llevaban hasta dos semanas sin commitear. Todo el trabajo técnico de C00
 —caracterización del motor, inercia, EXP-001, decks— vivía solo en el disco.
@@ -87,6 +95,14 @@ Reconocido como objetivo real a largo plazo. **Cero acción de investigación ah
 
 - **LinkedIn:** activo, pero como *subproducto*. Cada review con mentores produce
   material; publicar es copiar y traducir, no un proyecto aparte. Sin agente.
+- **Portfolio para entrevistas — decidido el 2026-10-30.** Tres piezas, en este orden de
+  importancia: (1) **este repositorio público** (`polcp03/epwt`), que se actualiza solo;
+  (2) **una presentación** que cuente el proyecto y lo hecho, sacada de los decks de las
+  reviews; (3) **un vídeo de 30 segundos** para enseñar a la gente: el quad, el gemelo
+  digital y un número medido, sin explicar teoría. Para el vídeo, **graba desde ya** clips
+  cortos de cada hito (el banco, una medida en el osciloscopio, el modelo corriendo): el
+  material que no se graba cuando pasa ya no se puede grabar después. Se monta cuando haya
+  una entrevista cerca o cuando el quad se mueva con control propio.
 - **YouTube / newsletter / formación:** más adelante. Doble función reconocida —
   construir marca y forzar comprensión real. La excusa del vídeo es aprender a
   explicar y perder vergüenza; ese objetivo ya lo cubren las presentaciones por ahora.
