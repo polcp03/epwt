@@ -1,6 +1,6 @@
 # Fuentes — qué leer para cada tema
 
-Biblioteca en `BOOKS/` (fuera de Git, copyright). Claude filtra el 20 % que hace falta
+Biblioteca en `BOOKS/` de la raíz del repositorio (`../BOOKS/` desde `epwt/`; fuera de Git, copyright). Claude filtra el 20 % que hace falta
 y cita sección y página. Esta tabla dice **dónde mirar**, no que haya que leerlo entero.
 
 | Tema | Libro principal | Capítulos | Ciclo |
@@ -18,7 +18,7 @@ y cita sección y página. Esta tabla dice **dónde mirar**, no que haya que lee
 | Firmware embebido (logger, ESP32) | White, *Making Embedded Systems*, 2.ª ed. | 4, 5, 7, 14 | ciclo del logger |
 | Sistemas embebidos, visión general | Marwedel, *Embedded System Design* | — | consulta |
 | Robótica, control no lineal | Tedrake, *Underactuated Robotics* | — | horizonte |
-| Material de ejemplo en MATLAB de Franklin | `BOOKS/BOOK_FeedbackControl/` | — | C03 |
+| Material de ejemplo en MATLAB de Franklin | `../BOOKS/BOOK_FeedbackControl/` | — | C03 |
 
 **Sin identificar:** `ELECTRONICS.pdf` (731 pp, escaneado sin texto) y
 `Training Inverters.pptx`. Pol: ¿de dónde salen? Si no sirven, fuera.

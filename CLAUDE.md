@@ -8,6 +8,20 @@ Todo lo demás es subproducto.
 Para qué: un portfolio que demuestre primeros principios ante empresas de EV, propulsión
 y control en Israel. Saber explicarlo en una entrevista es la prueba final.
 
+> **Dónde vive (desde el 30-oct-2026).** ePWT es la carpeta `epwt/` dentro del repositorio
+> NEWS_Engineering, junto al brief semanal y a `carrera/` (la preparación para Israel). Se
+> unió para que una sola sesión vea el quad y el currículum a la vez. Consecuencias:
+> - **Todas las rutas de este fichero son relativas a `epwt/`.** Desde la raíz: `epwt/01_plan/`…
+> - **Estas reglas mandan solo en `epwt/`.** El modo ingeniero senior y "cerebro primero"
+>   no se aplican al brief ni a `carrera/`, que tienen las suyas en el `CLAUDE.md` de la raíz.
+> - **Git:** un solo repositorio, `polcp03/NEWS_Engineering`. El antiguo `polcp03/epwt`
+>   está archivado (solo lectura). Para ePWT se sigue trabajando con rama + Pull Request;
+>   las rutinas de la nube suben el brief directo a `master`, así que `git pull` antes de
+>   empezar. Commits de `epwt/` en inglés, como siempre.
+> - Skills (`leccion`, `corregir`, `review-deck`), `.mcp.json` y `BOOKS/` están en la raíz.
+> - **Al cerrar un ciclo**, apunta lo demostrado en `../carrera/logros.md`. Es de donde sale
+>   el currículum.
+
 ## Tu papel: mi ingeniero senior
 
 No eres un asistente que me da la razón, ni un profesor que me da la lección hecha.
@@ -49,7 +63,7 @@ Eres el senior que me revisa el trabajo:
 - **Una sola tarea visible.** Una tarea al día, 45–60 min, martes a jueves (lunes libre, sábado un ejercicio). El plan del
   ciclo enseña solo la tarea de hoy; el resto está, pero no delante.
 - **Claude filtra, yo absorbo.** De cada libro, el 20 % que hace falta para seguir, con
-  la sección y la página de la fuente. Biblioteca en `BOOKS/` (fuera de Git); la principal
+  la sección y la página de la fuente. Biblioteca en `../BOOKS/` (raíz del repositorio, fuera de Git); la principal
   para motor e inversor es Hughes & Drury, *Electric Motors and Drives*, 5.ª ed.
 - **Formato de cada lección:** mi intento antes de leer → teoría corta → laboratorio del
   modelo (toco un parámetro y veo el efecto) → casos prácticos ("estás en esta
@@ -85,7 +99,7 @@ Numeradas por orden de flujo de trabajo, no alfabético.
 | `06_data/` | Ensayos reales, una carpeta por campaña `AAAA-MM-DD_<ensayo>`. Los crudos van en `raw/`, fuera de Git. |
 | `07_experiments/` | Hipótesis → medida → conclusión. |
 | `08_decisions/` | Decisiones con impacto: alternativas y razonamiento. |
-| `_tools/`, `_archive/`, `BOOKS/` | Software de terceros, material retirado y la biblioteca de libros. **Fuera de Git.** |
+| `_tools/`, `_archive/` (y `../BOOKS/`) | Software de terceros, material retirado y la biblioteca de libros. **Fuera de Git.** |
 
 `START-HERE.md` es el panel de entrada: dice qué toca hoy.
 
@@ -102,12 +116,12 @@ sesiones permanentes: dicen qué reglas aplican, no cuántos chats hay abiertos.
 | Dirección / planificación | solo este archivo |
 
 **REGLA OPERATIVA — importante.** Pol trabaja por voz y normalmente lanza Claude Code
-desde la raíz, sin hacer `cd`. Por tanto:
+desde la raíz del repositorio (NEWS_Engineering), sin hacer `cd`. Por tanto:
 
 > En cuanto el trabajo de una sesión caiga en un área con `CLAUDE.md` propio,
 > **léelo antes de responder nada sustantivo.** No esperes a que te lo pidan.
 
-Si en cambio la sesión se lanza con `cd 04_model && claude`, ese archivo se carga solo.
+Si en cambio la sesión se lanza con `cd epwt/04_model && claude`, ese archivo se carga solo.
 Las dos vías son válidas; la primera exige que yo lea, la segunda es automática.
 
 ## Reglas de trabajo
@@ -123,7 +137,7 @@ Las dos vías son válidas; la primera exige que yo lea, la segunda es automáti
 
 | Qué | Cómo se invoca |
 |---|---|
-| Python + análisis | `./.venv/Scripts/python.exe` — numpy, pandas, matplotlib, scipy, control |
+| Python + análisis | `./.venv/Scripts/python.exe` desde `epwt/` (dependencias en `requirements.txt`) — numpy, pandas, matplotlib, scipy, control |
 | MATLAB / Simulink | MCP `matlab` (**requiere MATLAB abierto**) o `matlab -batch "..."`, ~25 s |
 | Arduino / ESP32 | `$LOCALAPPDATA/Programs/Arduino IDE/resources/app/lib/backend/resources/arduino-cli.exe`, core `esp32:esp32` |
 | Git / GitHub | `git` + `gh` (PRs desde terminal) |
